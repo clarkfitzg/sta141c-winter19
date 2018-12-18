@@ -1,0 +1,41 @@
+Run something like this while running
+$ tail -f Rprofmem.out
+to see memory allocations as they happen.
+
+> n = 1e5
+> Rprofmem(append = TRUE, threshold=1e5)
+> x = as.numeric(seq(n))
+> Rprofmem(NULL)
+> Rprofmem(append = TRUE, threshold=1e5L)
+> Rprofmem(NULL)
+> Rprofmem(append = TRUE, threshold=1e5L)
+> x = as.numeric(seq(n))
+> Rprofmem(NULL)
+> Rprofmem(append = TRUE, threshold=1e5L)
+No suitable frames for recover()
+> n = 1e5L
+> Rprofmem(append = TRUE, threshold=1e5L)
+> y = x
+> Rprofmem(NULL)
+> Rprofmem(append = TRUE, threshold=1e5L)
+> z = x[-1]
+> Rprofmem(NULL)
+> Rprofmem(append = TRUE, threshold=1e5L)
+> sum(x[-1])
+[1] 5000049999
+> Rprofmem(NULL)
+
+Another way to see it:
+
+For large objects x, idx
+
+> microbenchmark(x[idx])
+Unit: milliseconds
+   expr      min       lq     mean  median       uq      max neval
+ x[idx] 3.152534 3.277536 3.463931 3.46539 3.650017 3.755224   100
+> l = list(x[idx], x[idx])
+> microbenchmark(l[[1]])
+Unit: nanoseconds
+   expr min  lq   mean median  uq  max neval
+ l[[1]] 103 109 223.63    162 176 6478   100
+
