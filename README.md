@@ -4,6 +4,38 @@ Catalog Description:
 
 > High­performance computing in high­level data analysis languages; different computational approaches and paradigms for efficient analysis of big data; interfaces to compiled languages; R and Python programming languages; high­level parallel computing; MapReduce; parallel algorithms and reasoning.
 
+
+### Learning Outcomes
+
+This is an experiential course.
+Students will learn how to work with big data by actually working with big data.
+They should come away with the following abilities:
+
+1. Develop skills and confidence to analyze data larger than memory
+2. Use remote compute resources
+1. Identify when and where programs are slow, and what options are available to speed them up
+2. Critically evaluate new data technologies, and understand them in the context of existing technologies
+3. Understand basic software engineering concepts
+
+We won't do the following:
+
+1. Comprehensive overview of machine learning
+
+
+## Schedule
+
+Topic
+-----
+technology overview
+test driven development
+bash: stdin and pipes
+speed profiling
+memory profiling
+cluster architecture
+interfacing to faster languages
+metaprogramming
+
+
 Looking over the syllabus, proposed emphasis is as follows:
 
 - 0.1 profiling / efficiency
@@ -11,14 +43,6 @@ Looking over the syllabus, proposed emphasis is as follows:
 - 0.2 compiled code
 - 0.4 Python
 - 0.2 Parallel / distributed
-
-James and Nick are doing all of 141B in Python.
-If I teach Python I have to do it for all those in 141A who never saw it, and this will be boring for those that already took 141B.
-Instead I can just let them use Python (or any other language) if they're more comfortable with it.
-The concepts will be the same in both languages.
-Julia, as an up and comer, that's now at 1.0, might be good to demonstrate the compiled languages.
-I'd prefer that over Rcpp.
-I like that C really forces you to understand data types, memory, etc.
 
 ## Concepts
 
@@ -119,6 +143,8 @@ Could also introduce some numerical methods.
 __Metaprogramming__
 Given a table of equations, look up the right equation and apply it.
 
+__Streaming__
+Count min sketch for streaming data.
 
 ### Data sets
 
