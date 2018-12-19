@@ -9,7 +9,7 @@ Catalog Description:
 
 This is an experiential course.
 Students will learn how to work with big data by actually working with big data.
-They should come away with the following abilities:
+These are the goals of the course:
 
 1. Develop skills and confidence to analyze data larger than memory
 2. Use remote compute resources
@@ -17,24 +17,28 @@ They should come away with the following abilities:
 2. Critically evaluate new data technologies, and understand them in the context of existing technologies
 3. Understand basic software engineering concepts
 
-We won't do the following:
+We won't do the following in class:
 
-1. Comprehensive overview of machine learning
+1. Comprehensive overview of statistics, machine learning, or 
+2. Go in depth into the latest and greatest packages for manipulating data.
+
+These are all worth learning, but it's not the goal of this class.
 
 
 ## Schedule
 
-Topic
+Topic | Description
 -----
-technology overview
-test driven development
-bash: stdin and pipes
-speed profiling
-memory profiling
-cluster architecture
-interfacing to faster languages
-metaprogramming
+technology overview     | historical context of programming languages, modern usage, strengths and weaknesses, open source
+bash 1                  | intro to command line, working and absolute directories, man page, executing programs, passing arguments, inspecting data, stdin and pipes
+bash 2                  | intro to Gauss, cluster architecture 
+test driven development |
+speed profiling         | `Rprof`, microbenchmark
+memory profiling        | when are objects copied? Why does it matter?
+interfacing to faster languages | JuliaCall, intro to Julia
+metaprogramming         | data as code, supports tree assignment
 
+I like the idea of doing bash first, because it helps support everything else afterwards.
 
 Looking over the syllabus, proposed emphasis is as follows:
 
@@ -126,6 +130,9 @@ One big table larger than memory, one small table that fits in memory, do someth
 
 
 ### Project / HW ideas
+
+__Historical background__
+Write a 1 page summary of one programming language. How was it used in the past? How is it used today?
 
 __Animal movements__
 Given GPS tracking data of where the monkeys have moved, describe how they behave.
