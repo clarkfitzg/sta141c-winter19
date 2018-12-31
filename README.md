@@ -34,17 +34,18 @@ We won't do the following in class:
 
 These are all worth learning, but it's not the goal of this class.
 
-## Syllabus
 
+## Syllabus
 
 Category    | Grade Percentage 
 --------    | ----------------
 Assignments   | 75
-Final Project | 20
+Group Project | 20
 Participation | 5
 
 - If there is any cheating, then we will have an in class exam.
-- We may curve the class, depending on the distribution of scores.
+- We may curve the class, depending on the distribution at the end.
+- There will be around 6 assignments (TODO: check)
 - Rubrics will be posted for each individual assignment.
 - The safest way to get full points for participation is to use Piazza on a weekly basis.
 
@@ -189,7 +190,8 @@ One big table larger than memory, one small table that fits in memory, do someth
 The first assignment should be something with local data.
 Then students can decide if they want to drop the class or not.
 After enrollment stabilizes, I'll give them access to the cluster.
-So the first assignment shouldn't use bash.
+The first assignment shouldn't use bash, because the Windows users won't have bash installed.
+Instead, the first one should be something that they can handle in memory- perhaps of the group by flavor.
 
 __Historical background__
 Write a 1 page summary of one programming language. How was it used in the past? How is it used today?
