@@ -28,7 +28,7 @@ These are all worth learning, but it's not the goal of this class.
 ## Schedule
 
 Topic | Description
------
+----- | -----------
 technology overview     | historical context of programming languages, modern usage, strengths and weaknesses, open source
 bash 1                  | intro to command line, working and absolute directories, man page, executing programs, passing arguments, inspecting data, stdin and pipes
 bash 2                  | intro to Gauss, cluster architecture 
