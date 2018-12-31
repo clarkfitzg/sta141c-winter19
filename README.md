@@ -12,28 +12,79 @@ Catalog Description:
 
 This is an experiential course.
 Students will learn how to work with big data by actually working with big data.
+We'll explore the foundational concepts that will 
+
 These are the goals of the course:
 
 1. Develop skills and confidence to analyze data larger than memory
 1. Identify when and where programs are slow, and what options are available to speed them up
-1. Introduce parallel computing
-2. Use remote compute resources
 2. Critically evaluate new data technologies, and understand them in the context of existing technologies
-3. Understand basic software engineering concepts
+
+We'll introduce and use the following concepts:
+
+2. Remote and cluster computers
+1. Parallel programming
+3. Software engineering, such as unit testing and version control
 
 We won't do the following in class:
 
-1. Comprehensive overview of statistics, machine learning, or 
 2. Go in depth into the latest and greatest packages for manipulating data.
+   Feel free to use them on assignments, unless otherwise stated.
+1. Comprehensive overview of machine learning.
 
 These are all worth learning, but it's not the goal of this class.
+
+## Syllabus
+
+
+Category    | Grade Percentage 
+--------    | ----------------
+Assignments   | 75
+Final Project | 20
+Participation | 5
+
+- If there is any cheating, then we will have an in class exam.
+- We may curve the class, depending on the distribution of scores.
+- Rubrics will be posted for each individual assignment.
+- The safest way to get full points for participation is to use Piazza on a weekly basis.
+
+### Asking Questions
+
+Questions about the material or logistics belong on Piazza so that everyone can see and respond.
+For personal or private questions ask the TA or instructor.
+
+Asking good technical questions is an important skill.
+Stack Overflow offers some [sound advice on how to ask questions](https://stackoverflow.com/help/how-to-ask).
+Summarizing,
+
+1. Check that your question hasn't been asked.
+2. Make the question specific, self contained, and reproducible.
+
+### Assignments
+
+Start early!
+Programming takes a long time, and you may also have to wait a long time for your job submission to complete on the cluster.
+
+I encourage you to talk about assignments, but you need to do your own work, and keep your work private.
+
+__OK__
+
+- Talking about general approaches.
+- Using short snippets of code (5 lines or so) from lecture, Piazza, or other sources. Acknowledge where it came from in a comment or in the assignment.
+
+__NOT OK__
+
+- Using other people's code without acknowledging it. 
+- Copying large blocks of code.
+- Storing your code in a publicly available repository.
+- Offering to pay someone else to do your assignment.
 
 
 ## Schedule
 
 Topic | Description
 ----- | -----------
-technology overview     | historical context of programming languages, modern usage, strengths and weaknesses, open source
+class and technology overview | syllabus, historical context of programming languages, modern usage, strengths and weaknesses, open source, job opportunities
 bash 1                  | intro to command line, working and absolute directories, man page, executing programs, passing arguments, inspecting data, stdin and pipes
 bash 2                  | intro to Gauss, cluster architecture 
 test driven development |
@@ -134,6 +185,11 @@ One big table larger than memory, one small table that fits in memory, do someth
 
 
 ### Project / HW ideas
+
+The first assignment should be something with local data.
+Then students can decide if they want to drop the class or not.
+After enrollment stabilizes, I'll give them access to the cluster.
+So the first assignment shouldn't use bash.
 
 __Historical background__
 Write a 1 page summary of one programming language. How was it used in the past? How is it used today?
