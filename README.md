@@ -7,13 +7,17 @@ Catalog Description:
 
 ### Learning Outcomes
 
+> Students learn to reason about computational efficiency in high­level languages. 
+> They will be able to use different approaches, technologies and languages to deal with large volumes of data and computationally intensive methods.
+
 This is an experiential course.
 Students will learn how to work with big data by actually working with big data.
 These are the goals of the course:
 
 1. Develop skills and confidence to analyze data larger than memory
-2. Use remote compute resources
 1. Identify when and where programs are slow, and what options are available to speed them up
+1. Introduce parallel computing
+2. Use remote compute resources
 2. Critically evaluate new data technologies, and understand them in the context of existing technologies
 3. Understand basic software engineering concepts
 
@@ -133,6 +137,10 @@ One big table larger than memory, one small table that fits in memory, do someth
 
 __Historical background__
 Write a 1 page summary of one programming language. How was it used in the past? How is it used today?
+This could be useful to introduce git.
+
+__Theoretical limits__
+Derive Gustafson, Amdahl's laws.
 
 __Animal movements__
 Given GPS tracking data of where the monkeys have moved, describe how they behave.
@@ -152,6 +160,10 @@ Given a table of equations, look up the right equation and apply it.
 
 __Streaming__
 Count min sketch for streaming data.
+
+__Algorithms vs hardware__
+Choosing appropriate data structures and algorithms is usually better than blindly adding compute power.
+
 
 ### Data sets
 
