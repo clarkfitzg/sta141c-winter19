@@ -6,7 +6,7 @@ Catalog Description:
 
 ![Summit supercomputer](summit.jpg)
 
-The fastest supercomputer in the world as of January, 2019 is the [Oak Ridge Summit](https://www.olcf.ornl.gov/olcf-resources/compute-systems/summit/).
+_The fastest machine in the world as of January, 2019 is the [Oak Ridge Summit Supercomputer](https://www.olcf.ornl.gov/olcf-resources/compute-systems/summit/)._
 
 ### Learning Outcomes
 
