@@ -4,6 +4,9 @@ Catalog Description:
 
 > High­performance computing in high­level data analysis languages; different computational approaches and paradigms for efficient analysis of big data; interfaces to compiled languages; R and Python programming languages; high­level parallel computing; MapReduce; parallel algorithms and reasoning.
 
+![Summit supercomputer](summit.jpg)
+
+The fastest supercomputer in the world as of January, 2019 is the [Oak Ridge Summit](https://www.olcf.ornl.gov/olcf-resources/compute-systems/summit/).
 
 ### Learning Outcomes
 
