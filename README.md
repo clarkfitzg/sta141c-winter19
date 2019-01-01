@@ -243,6 +243,10 @@ Count min sketch for streaming data.
 __Algorithms vs hardware__
 Choosing appropriate data structures and algorithms is usually better than blindly adding compute power.
 
+__Benford's Law__
+Apply to usaspending data as a whole, and by agency.
+Do any agencies warrant further attention?
+
 
 ### Data sets
 

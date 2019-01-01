@@ -31,4 +31,6 @@ I can learn about this flag by running `man scp`, which states:
              figuration problems.
 ```
 
+Use `ssh -A user@host` to forward your ssh keys if you use multiple servers.
 
+How to read a man page. `man man`. https://www.cs.mcgill.ca/~guide/help/man.html
