@@ -20,7 +20,7 @@ These are the goals of the course:
 1. Identify when and where programs are slow, and what options are available to speed them up
 2. Critically evaluate new data technologies, and understand them in the context of existing technologies
 
-We'll introduce and use the following concepts:
+We'll introduce and use the following concepts at a high level:
 
 2. Remote and cluster computers
 1. Parallel programming
@@ -30,9 +30,10 @@ We won't do the following in class:
 
 2. Go in depth into the latest and greatest packages for manipulating data.
    Feel free to use them on assignments, unless otherwise stated.
-1. Comprehensive overview of machine learning.
+1. Comprehensive overview of machine learning, predictive analytics, or any particular sub field of statistics.
+3. Learn low level concepts that distributed applications build on, such as network sockets, MPI, etc.
 
-These are all worth learning, but it's not the goal of this class.
+These are all worth learning, but out of scope for this class.
 
 
 ## Syllabus
@@ -52,7 +53,7 @@ Participation | 5
 ### Asking Questions
 
 Questions about the material or logistics belong on Piazza so that everyone can see and respond.
-For personal or private questions ask the TA or instructor.
+For private or sensitive questions ask the TA or instructor.
 
 Asking good technical questions is an important skill.
 Stack Overflow offers some [sound advice on how to ask questions](https://stackoverflow.com/help/how-to-ask).
@@ -192,6 +193,26 @@ Then students can decide if they want to drop the class or not.
 After enrollment stabilizes, I'll give them access to the cluster.
 The first assignment shouldn't use bash, because the Windows users won't have bash installed.
 Instead, the first one should be something that they can handle in memory- perhaps of the group by flavor.
+
+Duncan tends to give open ended assignments.
+For undergraduates I think the assignments should be more well defined- i.e. use the cluster to do X, Y, Z.
+The project can be open ended.
+
+I want the assignments to focus on these things:
+
+- importance of data structures
+- how to make an R package
+- `stdin` stream processing in bash / other languages
+- 2X data processing on cluster _usaspending benfords_
+- interface to compiled code (Julia or C) _traffic model_
+- metaprogramming _tree biomass_
+
+usaspending is a huge, rich database.
+I think it would be more valuable to spend more time exploring data from this one source rather than having cursory exposure to 10 different data sets.
+After all, this is how work often is- think of my industry experiences.
+Then I'll let them come up with a question on this data set, or give them a handful of prompts to get started.
+They can also propose their own project.
+
 
 __Historical background__
 Write a 1 page summary of one programming language. How was it used in the past? How is it used today?
