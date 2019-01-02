@@ -66,7 +66,7 @@ Here is where you can do this:
    Make sure your posts don't give away solutions to the assignment.
    Including a handful of lines of code is usually fine.
 
-For private or sensitive questions ask the instructor or TA.
+For private or sensitive questions it's OK to email the instructor or TA.
 
 Asking good technical questions is an important skill.
 Stack Overflow offers some [sound advice on how to ask questions](https://stackoverflow.com/help/how-to-ask).
