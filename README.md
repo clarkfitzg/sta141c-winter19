@@ -23,8 +23,8 @@ These are the goals of the course:
 
 We'll introduce and use the following concepts at a high level:
 
-2. Remote and cluster computers
-1. Parallel programming
+1. Remote and cluster computers
+2. Parallel programming
 3. Software engineering, such as unit testing and version control
 
 We won't do the following in class:
@@ -40,8 +40,8 @@ These are all worth learning, but out of scope for this class.
 ### Data
 
 We'll use the raw data behind [usaspending.gov](https://www.usaspending.gov/#/) as the primary example dataset for this class.
-
-From the website:
+These are comprehensive records of how the US government spends taxpayer money.
+From their website:
 
 > USA Spending tracks federal spending to ensure taxpayers can see how their money is being used in communities across America.
 
@@ -87,8 +87,7 @@ Group Project | 20
 Participation | 5
 
 - If there is any cheating, then we will have an in class exam.
-- We may curve the class, depending on the distribution of grades at the end.
-- There will be around 6 assignments (TODO: check)
+- There will be around 6-8 assignments
 - Rubrics will be posted for each individual assignment.
 - The safest way to get full points for participation is to use Piazza on a weekly basis.
 
