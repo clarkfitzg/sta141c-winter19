@@ -8,16 +8,12 @@ Catalog Description:
 
 _The fastest machine in the world as of January, 2019 is the [Oak Ridge Summit Supercomputer](https://www.olcf.ornl.gov/olcf-resources/compute-systems/summit/)._
 
+
 ### Learning Outcomes
-
-From syllabus:
-
-> Students learn to reason about computational efficiency in high­level languages. 
-> They will be able to use different approaches, technologies and languages to deal with large volumes of data and computationally intensive methods.
 
 This is an experiential course.
 Students will learn how to work with big data by actually working with big data.
-We'll cover broadly applicable foundational concepts.
+We'll cover the foundational concepts that are useful for data scientists and data engineers.
 
 These are the goals of the course:
 
@@ -33,15 +29,56 @@ We'll introduce and use the following concepts at a high level:
 
 We won't do the following in class:
 
-2. Go in depth into the latest and greatest packages for manipulating data.
+1. Go in depth into the latest and greatest packages for manipulating data.
    Feel free to use them on assignments, unless otherwise directed.
-1. Comprehensive overview of machine learning, predictive analytics, or any particular sub field of statistics.
+1. Comprehensive overview of machine learning, predictive analytics, deep neural networks, algorithm design, or any particular sub field of statistics.
 3. Learn low level concepts that distributed applications build on, such as network sockets, MPI, etc.
 
 These are all worth learning, but out of scope for this class.
 
 
-## Syllabus
+### Data
+
+We'll use the raw data behind [usaspending.gov](https://www.usaspending.gov/#/) as the primary example dataset for this class.
+
+From the website:
+
+> USA Spending tracks federal spending to ensure taxpayers can see how their money is being used in communities across America.
+
+How did I get this data?
+I downloaded the [raw Postgres database](https://files.usaspending.gov/database_download/).
+Nehad Ismail, our excellent department systems administrator, helped me set it up.
+It's about 1 Terabyte when built.
+The largest tables are around 200 GB and have 100's of millions of rows.
+
+
+### Topic List
+
+The class will cover the following topics.
+In class we'll mostly use the R programming language, but these concepts apply more or less to any language.
+
+- 'group by' computation
+- debugging
+- profiling
+- memory efficiency
+- high level parallel programming
+- interfacing to faster languages
+- object oriented programming
+- shell (bash)
+- cluster computing (SLURM)
+
+Optional topics:
+
+- creating reusable software
+- Databases, Hive, Postgres
+- Other languages: Python, Julia, C
+- test driven development
+- metaprogramming
+- GPUs (graphical processing units)
+- Hadoop MapReduce
+
+
+### Grading
 
 Category    | Grade Percentage 
 --------    | ----------------
@@ -50,7 +87,7 @@ Group Project | 20
 Participation | 5
 
 - If there is any cheating, then we will have an in class exam.
-- We may curve the class, depending on the distribution at the end.
+- We may curve the class, depending on the distribution of grades at the end.
 - There will be around 6 assignments (TODO: check)
 - Rubrics will be posted for each individual assignment.
 - The safest way to get full points for participation is to use Piazza on a weekly basis.
@@ -95,23 +132,3 @@ __NOT OK__
 - Storing your code in a publicly available repository.
 - Offering to pay someone else to do your assignment.
 
-
-## Schedule
-
-Subject to change
-
-Topic | Description
------ | -----------
-class and technology overview | syllabus, historical context of programming languages, modern usage, strengths and weaknesses, open source, job opportunities
-group by computation    | chunking, capabilities of a local machine, relation to SQL, Hadoop
-bash 1                  | intro to command line, working and absolute directories, man page, executing programs, passing arguments, inspecting data, stdin and pipes
-cluster                 | intro to Gauss, cluster architecture 
-test driven development |
-speed profiling         | `Rprof`, microbenchmark
-memory profiling        | when are objects copied? Why does it matter?
-interfacing to faster languages | JuliaCall, intro to Julia
-metaprogramming         | data as code, supports tree assignment
-
-<!--
-I like the idea of doing bash early, because it helps support everything else afterwards.
--->
