@@ -21,11 +21,28 @@ These are the goals of the course:
 1. Identify when and where programs are slow, and what options are available to speed them up
 2. Critically evaluate new data technologies, and understand them in the context of existing technologies
 
-We'll introduce and use the following concepts at a high level:
+The class will cover the following topics.
+In class we'll mostly use the R programming language, but these concepts apply more or less to any language.
 
-1. Remote and cluster computers
-2. Parallel programming
-3. Software engineering, such as unit testing and version control
+- 'group by' computation
+- debugging
+- profiling
+- memory efficiency
+- high level parallel programming
+- interfacing to faster languages
+- object oriented programming
+- shell (bash)
+- cluster computing (SLURM)
+
+Optional topics:
+
+- creating reusable software
+- Databases, Hive, Postgres
+- Other languages: Python, Julia, C
+- test driven development
+- metaprogramming
+- GPUs (graphical processing units)
+- Hadoop MapReduce
 
 We won't do the following in class:
 
@@ -52,30 +69,14 @@ It's about 1 Terabyte when built.
 The largest tables are around 200 GB and have 100's of millions of rows.
 
 
-### Topic List
+### Reference Books
 
-The class will cover the following topics.
-In class we'll mostly use the R programming language, but these concepts apply more or less to any language.
+You may find these books useful, but they aren't necessary for the course.
+I'll post other references along with the lecture notes.
 
-- 'group by' computation
-- debugging
-- profiling
-- memory efficiency
-- high level parallel programming
-- interfacing to faster languages
-- object oriented programming
-- shell (bash)
-- cluster computing (SLURM)
-
-Optional topics:
-
-- creating reusable software
-- Databases, Hive, Postgres
-- Other languages: Python, Julia, C
-- test driven development
-- metaprogramming
-- GPUs (graphical processing units)
-- Hadoop MapReduce
+- The Art of R Programming, by Norm Matloff
+- [Advanced R](http://adv-r.had.co.nz/), by Hadley Wickham
+- Linux Pocket Guide, by Daniel Barrett
 
 
 ### Grading
@@ -122,12 +123,12 @@ I encourage you to talk about assignments, but you need to do your own work, and
 __OK__
 
 - Talking about general approaches.
-- Using short snippets of code (5 lines or so) from lecture, Piazza, or other sources. Acknowledge where it came from in a comment or in the assignment.
+- Using short snippets of code (5 lines or so) from lecture, Piazza, or other sources.
+  Acknowledge where it came from in a comment or in the assignment.
 
 __NOT OK__
 
+- Any violations of the UC Davis code of student conduct.
 - Using other people's code without acknowledging it. 
 - Copying large blocks of code.
 - Storing your code in a publicly available repository.
-- Offering to pay someone else to do your assignment.
-
