@@ -69,6 +69,7 @@ It's about 1 Terabyte when built.
 The largest tables are around 200 GB and have 100's of millions of rows.
 
 
+
 ### Reference Books
 
 You may find these books useful, but they aren't necessary for the course.
@@ -132,3 +133,9 @@ __NOT OK__
 - Using other people's code without acknowledging it. 
 - Copying large blocks of code.
 - Storing your code in a publicly available repository.
+
+
+### Group Project
+
+For the group project you will form groups of 2-3 and pursue a more open ended question using the usaspending data set.
+This is your opportunity to pursue a question that you are personally interested in as you create a public 'portfolio project' that shows off your big data processing skills to potential employers or admissions committees.
