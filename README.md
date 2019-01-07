@@ -1,5 +1,8 @@
 # STA 141C Big Data & High Performance Statistical Computing
 
+- Class Q & A [Piazza](https://piazza.com/ucdavis/winter2019/sta141c/home)
+- [Canvas](https://login.canvas.ucdavis.edu/)
+
 Catalog Description:
 
 > High­performance computing in high­level data analysis languages; different computational approaches and paradigms for efficient analysis of big data; interfaces to compiled languages; R and Python programming languages; high­level parallel computing; MapReduce; parallel algorithms and reasoning.
@@ -104,7 +107,7 @@ Here is where you can do this:
    Make sure your posts don't give away solutions to the assignment.
    Including a handful of lines of code is usually fine.
 
-For private or sensitive questions it's OK to email the instructor or TA.
+For private or sensitive questions you can do private posts on Piazza or email the instructor or TA.
 
 Asking good technical questions is an important skill.
 Stack Overflow offers some [sound advice on how to ask questions](https://stackoverflow.com/help/how-to-ask).
