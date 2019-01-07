@@ -92,8 +92,8 @@ Group Project | 20
 Participation | 5
 
 - If there is any cheating, then we will have an in class exam.
-- There will be around 6-8 assignments
-- Rubrics will be posted for each individual assignment.
+- There will be around 6-8 assignments.
+- The lowest assignment score will be dropped.
 - The safest way to get full points for participation is to use Piazza on a weekly basis.
 
 
@@ -119,6 +119,12 @@ Summarizing,
 You're welcome to opt in or out of Piazza's Network service, which lets employers find you.
 
 
+### Group Project
+
+For the group project you will form groups of 2-3 and pursue a more open ended question using the usaspending data set.
+This is your opportunity to pursue a question that you are personally interested in as you create a public 'portfolio project' that shows off your big data processing skills to potential employers or admissions committees.
+
+
 ### Assignments
 
 Start early!
@@ -140,7 +146,41 @@ __NOT OK__
 - Storing your code in a publicly available repository.
 
 
-### Group Project
+### Assignment Rubric
 
-For the group project you will form groups of 2-3 and pursue a more open ended question using the usaspending data set.
-This is your opportunity to pursue a question that you are personally interested in as you create a public 'portfolio project' that shows off your big data processing skills to potential employers or admissions committees.
+_Adapted from Nick Ulle's Fall 2018 STA141A class._
+
+Point values and weights may differ among assignments.
+This is to indicate what the most important aspects are, so that you spend your time on those that matter most.
+Check the homework submission page on Canvas to see what the point values are for each assignment.
+
+The grading criteria are correctness, code quality, and communication.
+The following describes what an excellent homework solution should look like:
+
+
+#### Correctness
+
+The report does the following:
+
+- solves all the questions contained in the prompt.
+- makes conclusions that are supported by evidence in the data.
+- points out any assumptions made and examines how credible they are. 
+- discusses efficiency and mentions alternative approaches.
+- cites any sources used
+
+The attached code runs without modification.
+
+
+#### Code Quality
+
+The code is idiomatic and efficient.
+Different steps of the data processing are logically organized into scripts and small, reusable functions.
+Variable names are descriptive.
+The style is consistent and easy to read.
+
+
+#### Communication
+
+Plots include titles, axis labels, and legends or special annotations where appropriate.
+Tables include only columns of interest, are clearly explained in the body of the report, and not too large.
+Writing is clear, correct English.
