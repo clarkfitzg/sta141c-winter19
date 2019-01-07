@@ -1,7 +1,7 @@
 # STA 141C Big Data & High Performance Statistical Computing
 
-- Class Q & A [Piazza](https://piazza.com/ucdavis/winter2019/sta141c/home)
-- [Canvas](https://login.canvas.ucdavis.edu/)
+- Class Q & A [Piazza](https://piazza.com/class/jqmje0ujwrm2wx)
+- [Canvas](https://canvas.ucdavis.edu/courses/290605)
 
 Catalog Description:
 
@@ -115,6 +115,8 @@ Summarizing,
 
 1. Check that your question hasn't been asked.
 2. Make the question specific, self contained, and reproducible.
+
+Note- you're welcome to opt in or out of Piazza's Network service, which lets employers find you.
 
 
 ### Assignments
