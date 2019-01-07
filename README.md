@@ -22,7 +22,7 @@ These are the goals of the course:
 
 1. Develop skills and confidence to analyze data larger than memory
 1. Identify when and where programs are slow, and what options are available to speed them up
-2. Critically evaluate new data technologies, and understand them in the context of existing technologies
+2. Critically evaluate new data technologies, and understand them in the context of existing technologies and concepts
 
 The class will cover the following topics.
 In class we'll mostly use the R programming language, but these concepts apply more or less to any language.
@@ -116,7 +116,7 @@ Summarizing,
 1. Check that your question hasn't been asked.
 2. Make the question specific, self contained, and reproducible.
 
-Note- you're welcome to opt in or out of Piazza's Network service, which lets employers find you.
+You're welcome to opt in or out of Piazza's Network service, which lets employers find you.
 
 
 ### Assignments
