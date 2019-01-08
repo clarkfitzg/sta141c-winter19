@@ -90,13 +90,7 @@ zip_file_path = "~/data/awards.zip"
 files = unzip(zip_file_path, list = TRUE)
 
 ## Let's pick a random file name to experiment with
-file_name = "123.csv"
-
-## We can extract _only_ this file from the archive if we like:
-f = unz(zip_file_path, file_name)
-
-## Then read it into a data frame
-grp = read.csv(f)
+fname = "123.csv"
 
 ## Now we can start poking around at this data frame.
 ## Always be touching your data- getting familiar with it, exploring it.
@@ -109,16 +103,20 @@ grp = read.csv(f)
 ## This is called object-oriented programming, and we'll learn more about it later in the quarter.
 class(grp)
 
-## Dimensions, number of rows and columns
-dim(grp)
+# Extract the file
+unzip(zip_file_path, files = fname)
 
-## Shows the classes of each column
-str(grp)
+# Load it into R
+d = read.csv(fname)
 
-## The first little bit of data
-head(grp)
+# Always be touching your data
 
-## Summarize in an appropriate way
-summary(grp)
+# first few lines
+head(d)
 
+# Dimensions, number of rows and columns
+dim(d)
+
+# summarize object
+summary(d)
 ```

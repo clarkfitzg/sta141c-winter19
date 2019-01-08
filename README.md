@@ -2,6 +2,7 @@
 
 - Class Q & A [Piazza](https://piazza.com/class/jqmje0ujwrm2wx)
 - [Canvas](https://canvas.ucdavis.edu/courses/290605)
+- [Class Data](http://anson.ucdavis.edu/~clarkf/sta141c/)
 
 Catalog Description:
 
