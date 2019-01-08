@@ -4,6 +4,14 @@
 - [Canvas](https://canvas.ucdavis.edu/courses/290605)
 - [Class Data](http://anson.ucdavis.edu/~clarkf/sta141c/)
 
+### Lectures
+
+Lecture content is in the [lecture directory](https://github.com/clarkfitzg/sta141c-winter19/tree/master/lecture).
+
+Date    |   Topic
+--------| ----------------
+1-8     | introduction, syllabus, first steps in R
+
 Catalog Description:
 
 > High­performance computing in high­level data analysis languages; different computational approaches and paradigms for efficient analysis of big data; interfaces to compiled languages; R and Python programming languages; high­level parallel computing; MapReduce; parallel algorithms and reasoning.
