@@ -1,15 +1,3 @@
-Fri Jan  4 10:22:54 PST 2019
-
-1. Introduction
-1. Class Overview (Syllabus)
-2. Opportunities in data science
-2. Events
-2. Syllabus
-3. Piazza
-4. HW1
-4. usaspending data
-
-
 ## Introduction
 
 Welcome to STA 141C, Big Data and High Performance Computing.
@@ -31,6 +19,10 @@ My philosophy is to teach in more depth a couple standard, proven technologies t
 The focus is on concepts, not getting lost in setup details and syntax.
 We will also dabble in other languages- Python, Julia, C.
 
+What is 'big data'?
+It's an ambiguous term - kind of like 'data science'.
+One definition that's sometimes useful is data that's larger than memory, because this requires different techniques from the usual in-memory R and Python.
+
 (Blackboard)
 What are some other 'big data' or high performance technologies you've heard of?
 
@@ -44,7 +36,7 @@ But don't get sucked into the "language wars"- religious debates on which techno
 Regarding prerequisites, I expect that you are already comfortable handling data with R or Python.
 If you're not, that's ok- the TA and I will do our best to get you up to speed.
 The homeworks will just take more time.
-I actually don't satisfy any of the prerequisites, yet, here I am teaching the class.
+I actually don't satisfy any of the prerequisites, yet here I am teaching the class.
 All the other technologies and statistics we'll learn together.
 
 
@@ -63,10 +55,6 @@ I worked in the field and came back to get my PhD when I saw the kinds of opport
 Most organizations need people who can do this.
 Much of what we'll do in class is motivated by my work experience.
 
-What is 'big data'?
-It's an ambiguous term - kind of like 'data science'.
-One definition that's sometimes useful is data that's larger than memory, because this requires different techniques from the usual in-memory R and Python.
-
 
 ## Upcoming Events
 
@@ -79,3 +67,58 @@ One definition that's sometimes useful is data that's larger than memory, becaus
 Quick walk through.
 
 https://github.com/clarkfitzg/sta141c-winter19
+
+
+## Data
+
+usaspending
+
+
+## Homework 1
+
+```{r}
+
+## Intro to data
+
+## I downloaded the big zip file from the website to this path
+zip_file_path = "~/data/awards.zip"
+
+## Look at the help like this:
+?unzip
+
+## Carefully reading the documentation shows that we can list the files in this archive.
+files = unzip(zip_file_path, list = TRUE)
+
+## Let's pick a random file name to experiment with
+file_name = "123.csv"
+
+## We can extract _only_ this file from the archive if we like:
+f = unz(zip_file_path, file_name)
+
+## Then read it into a data frame
+grp = read.csv(f)
+
+## Now we can start poking around at this data frame.
+## Always be touching your data- getting familiar with it, exploring it.
+## This interactiveness is a strength of R.
+
+## Ask class- how do you do this?
+
+## The kind of object this is.
+## The other functions dispatch based on this value.
+## This is called object-oriented programming, and we'll learn more about it later in the quarter.
+class(grp)
+
+## Dimensions, number of rows and columns
+dim(grp)
+
+## Shows the classes of each column
+str(grp)
+
+## The first little bit of data
+head(grp)
+
+## Summarize in an appropriate way
+summary(grp)
+
+```
