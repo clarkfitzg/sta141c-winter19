@@ -1,8 +1,47 @@
-## ## Questions?
+## ### Notes
+
+## - No late homework.
+##   If you mess up and miss the deadline that's ok, you can drop one.
+## - Seminar today Stats seminar today: Larry Wasserman "Assumption Free Predictive Inference" Thursday 4pm, MSB 1147 https://statistics.ucdavis.edu/events/seminar-011019-wasserman
+
+## ### Questions?
+
+## # Review
+
+## Last class we loaded the data in by choosing one file that we wanted and unzipping that one into our current directory.
+
+# Original data
+zip_file_path = "~/data/awards.zip"
+files = unzip(zip_file_path, list = TRUE)
+
+# Picking a random file name to play with
+fname = "123.csv"
+
+unzip(zip_file_path, files = fname)
+
+grp = read.csv(fname)
+
+## How do we clean up after ourselves after we're done?
+
+unlink(fname)
+
+## # Files
+
+## What is a file really?
+
+## UNIX definition of a file
+
+## ## Other techniques
+
+## - Unzip everything beforehand
+## - `unz`
+## - `pipe`
+
 
 ## # Group By
 
 ## ## References
+
 ## -[The Split-Apply-Combine Strategy for Data Analysis](https://www.jstatsoft.org/article/view/v040i01) Wickham
 ## -[Large complex data: divide and recombine (D&R) with RHIPE](http://ml.stat.purdue.edu/docs/dr.rhipe.stat.2012.pdf) Guha, et. al.
 
@@ -20,11 +59,11 @@
 
 ## This pattern comes up all the time in data analysis.
 ## It's especially helpful for large data sets with many groups because we can compute `f(group)` in parallel, thus potentially saving a large amount of time.
-## We can do this if each function `f(group)` can be computed independently.
+## We can do this if each function `f(group)` can be computed independently, as in the example above with `f = sum`.
 
-## __Question__: What are examples of functions f that __cannot__ be computed independently?
+## __Question__: What are examples of functions `f` that __cannot__ be computed independently?
 
-
+## 
 
 
 ## Intro to data

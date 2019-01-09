@@ -102,6 +102,8 @@ Participation | 5
 
 - If there is any cheating, then we will have an in class exam.
 - There will be around 6-8 assignments.
+- Homework must be turned in by the due date.
+  No late homework accepted.
 - The lowest assignment score will be dropped.
 - The safest way to get full points for participation is to use Piazza on a weekly basis.
 
