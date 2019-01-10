@@ -1,5 +1,7 @@
 ## ### Notes
 
+## - TA, Si Teng Hao, will have office hours tomorrow, tentatively 2-4 pm.
+##   I'll have office hours on Monday.
 ## - No late homework.
 ##   If you can't quite finish it's better to turn it what you have.
 ##   Don't worry about it, you can drop one.
@@ -252,6 +254,7 @@ ms2 = do.call(rbind, ms)
 
 ## Question: Which is more clear?
 ## Which is more flexible?
+## It's no wonder that there's a bunch of popular packages that make this sort of thing cleaner!
 
 ## __Technique__: To process a bunch of files in the same way, write a function that processes a single file.
 
