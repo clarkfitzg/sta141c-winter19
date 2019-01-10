@@ -1,7 +1,8 @@
 ## ### Notes
 
 ## - No late homework.
-##   If you mess up and miss the deadline that's ok, you can drop one.
+##   If you can't quite finish it's better to turn it what you have.
+##   Don't worry about it, you can drop one.
 ## - Seminar today Stats seminar today: Larry Wasserman "Assumption Free Predictive Inference" Thursday 4pm, MSB 1147 https://statistics.ucdavis.edu/events/seminar-011019-wasserman
 
 ## ### Questions?
@@ -21,21 +22,61 @@ unzip(zip_file_path, files = fname)
 
 grp = read.csv(fname)
 
-## How do we clean up after ourselves after we're done?
+## If we do this for every file, then we'll end up unzipping all of them.
+## How do we clean up after ourselves as we go?
 
 unlink(fname)
 
-## # Files
+## Another way is through temporary files / directories, which the OS will clean up later.
+scratch = tempdir()
 
-## What is a file really?
 
-## UNIX definition of a file
+## ## There are a variety of ways to get in these files.
 
-## ## Other techniques
+## I could unzip everything beforehand.
+## Do it with the point and click.
 
-## - Unzip everything beforehand
-## - `unz`
-## - `pipe`
+## __Question__: When should you use the point and click method?
+
+## For a one off assignment like this I think it's totally fine.
+## Otherwise we like scripted methods because we can automate them, and they rarely change.
+
+## We can do it from R:
+unzip(zip_file_path, exdir = "~/data/awards")
+
+## We could do it from the command line: `unzip ~/data/awards.zip -d ~/data/awards`
+
+## If you carefully read R's `unzip` help page you'll see a link to the function `unz()`.
+f = unz(zip_file_path, fname)
+f
+## `f` here is an interesting object, a 'connection', which is a generalization of a file.
+## It hasn't given us any data yet.
+## We need to ask it for data.
+
+## It started out 'closed'.
+## Let's open it up and get some data.
+open(f)
+
+## Every time we run this line it feeds us the next `n = 2` lines from the connection.
+readLines(f, n = 2L)
+
+## What is data in a file really?
+## It's just a sequence of bytes that we can read or write.
+## This comes from the UNIX philosophy, that we'll explore in more detail later.
+
+## We can parse the file output directly into an R data frame without creating an intermediate temporary zip file.
+f = unz(zip_file_path, fname)
+d = read.csv(f)
+
+## That was specific to `zip` archives.
+## The `pipe` command is more general.
+## It lets us call arbitrary shell commands.
+## For example, the command `unzip -p ~/data/awards.zip 123.csv` will extract the contents of the file 123.csv to stdout.
+## Try it.
+fp = pipe("unzip -p ~/data/awards.zip 123.csv")
+fp
+
+dp = read.csv(fp)
 
 
 ## # Group By
