@@ -82,6 +82,7 @@ dp = read.csv(fp)
 ## The 'group by' pattern of computation means to split the data into groups, and then compute some statistic `f(group)` for every group.
 ## This pattern has various different names, such as split-apply-combine, or divide and recombine.
 ## Most data analysis software offers some way to do it, and there are a bunch of packages with specialized implementations.
+## Notable packages in R are data.table and dplyr.
 ## I'm calling it the group by pattern because `GROUP BY` is the syntax in the well known SQL language.
 ## For example, a query to see how much each customer purchased might look like:
 
@@ -99,6 +100,158 @@ dp = read.csv(fp)
 
 ## Demo: tapply, as.Date, format
 
+bikes = read.csv("../data/awards_bicycles.csv")
+
+## Let's focus on a couple columns to see what we're doing.
+bikes = bikes[, c("total_obligation", "period_of_performance_start_date")]
+
+## Convert the period_of_performance_start_date into a date
+bikes$date = as.Date(bikes$period_of_performance_start_date)
+
+head(bikes)
+
+## The date column prints out the same, but it is a different class.
+str(bikes)
+
+## I'm going to drop the old column because we don't need it anymore, and I want it to print nicely for you.
+bikes$period_of_performance_start_date = NULL
+
+## And make total_obligation a little shorter
+colnames(bikes)[1] = "price"
+
+
+## Let's extract the month
+bikes$month = format(bikes$date, "%m")
+
+bikes$month 
+
+## tapply lets us ask questions such as:
+## What was the max the VA spent on a bike in any given month?
+
+tapply(bikes$price, bikes$month, max)
+
+## tapply works best on vectors.
+
+## Suppose we want to get the actual date along with the max price.
+
+## In SQL this might look something like:
+## ```
+## SELECT month, date, max(total_obligation)
+## FROM bikes
+## GROUP BY month
+## ;
+## ``
+
+## Let's start by making it work for just one month.
+
+grp = bikes[bikes$month == "01", ]
+
+maxprice = max(grp$price)
+maxdate = grp$date[which.max(grp$price)]
+
+## Here's what I want to end up with for each month.
+data.frame(price = maxprice, date = maxdate, month = grp[1, "month"])
+
+## __Technique__: To process a bunch of different groups in the same way, write a function that processes a single group.
+
+## All I need to do in this case is transform what I already have into a function.
+## 
+
+max_price_date = function(grp)
+{
+    maxprice = max(grp$price)
+    maxdate = grp$date[which.max(grp$price)]
+    data.frame(price = maxprice, date = maxdate, month = grp[1, "month"])
+}
+
+## Let's test it on the little subset we've been working with.
+
+max_price_date(grp)
+
+## Works. Sweet.
+
+## Now all we have to do is apply it to every group in the data.
+## We can use a specialized package, or we can use base R.
+
+months = split(bikes, bikes$month)
+
+## Question: What do you expect is the length?
+length(months)
+
+## Now we apply the function we wrote to each group.
+ms = lapply(months, max_price_date)
+
+## lapply means 'list apply'.
+## It returns a list containing all these individual data frames, so we need to combine them together.
+
+ms
+
+## Will data.frame do it for us?
+## Seems plausible.
+## Let's find out.
+
+ms2 = data.frame(ms)
+
+# No. we expect a result that has 12 rows and 3 columns.
+dim(ms2)
+
+## rbind is the function we're looking for here.
+## The parameters are `...`.
+## That means we can pass in as many arguments as we like.
+
+rbind(ms[[1]], ms[[2]])
+
+## So to bring them all together we just do this then, right?
+
+rbind(ms[[1]], ms[[2]], ms[[3]], ms[[4]], ms[[4]], ms[[5]], ms[[6]], ms[[7]], ms[[8]], ms[[9]], ms[[10]], ms[[11]], ms[[12]])
+
+## Ewww! No way!
+## __Question__ What's wrong with this?
+## Violates DRY principle - "Do not Repeat Yourself".
+## - Error prone
+## - Doesn't scale to more arguments.
+
+## This is bad coding style.
+## There must be a better way.
+## do.call is that better way.
+## do.call lets you provide arguments in a list, which is just what we had!
+
+ms2 = do.call(rbind, ms)
+
+## This says, "call the function rbind passing all the elements of ms in as arguments".
+
+## Ahh, here's what we wanted.
+ms2
+
+## The `by` function in base R does `split` and `apply` together.
+
+ms3 = by(bikes, bikes$month, max_price_date)
+
+ms3 = do.call(rbind, ms)
+
+ms3
+
+## Now, compare the SQL and the base R versions side by side:
+
+## SQL: 
+## ```
+## SELECT month, date, max(price)
+## FROM bikes
+## GROUP BY month;
+## ```
+
+max_price_date = function(grp)
+{
+    maxprice = max(grp$price)
+    maxdate = grp$date[which.max(grp$price)]
+    data.frame(price = maxprice, date = maxdate, month = grp[1, "month"])
+}
+months = split(bikes, bikes$month)
+ms = lapply(months, max_price_date)
+ms2 = do.call(rbind, ms)
+
+## Question: Which is more clear?
+## Which is more flexible?
 
 ## __Technique__: To process a bunch of files in the same way, write a function that processes a single file.
 
