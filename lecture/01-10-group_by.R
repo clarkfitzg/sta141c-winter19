@@ -53,13 +53,6 @@ f
 ## It hasn't given us any data yet.
 ## We need to ask it for data.
 
-## It started out 'closed'.
-## Let's open it up and get some data.
-open(f)
-
-## Every time we run this line it feeds us the next `n = 2` lines from the connection.
-readLines(f, n = 2L)
-
 ## What is data in a file really?
 ## It's just a sequence of bytes that we can read or write.
 ## This comes from the UNIX philosophy, that we'll explore in more detail later.
@@ -104,8 +97,15 @@ dp = read.csv(fp)
 
 ## __Question__: What are examples of functions `f` that __cannot__ be computed independently?
 
-## 
+## Demo: tapply, as.Date, format
 
+
+## __Technique__: To process a bunch of files in the same way, write a function that processes a single file.
+
+## __Question__: What is good about this technique?
+## - Keeps your code clean and logical
+## - Easy to develop and test
+## - Easy to make parallel (we'll learn soon)
 
 ## Intro to data
 
