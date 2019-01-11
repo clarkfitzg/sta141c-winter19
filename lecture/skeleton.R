@@ -243,3 +243,4 @@ aggregate(bikes, by = list(bikes$month), FUN = max_month)
 ## `aggregate` gives us something nicer than `tapply`.
 ## Thanks Rishi!
 aggregate(price ~ month, bikes, FUN = max)
+
