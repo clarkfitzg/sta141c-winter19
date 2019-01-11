@@ -215,8 +215,8 @@ rbind(ms[[1]], ms[[2]], ms[[3]], ms[[4]], ms[[4]], ms[[5]], ms[[6]], ms[[7]], ms
 
 ## This is bad coding style.
 ## There must be a better way.
-## do.call is that better way.
-## do.call lets you provide arguments in a list, which is just what we had!
+## `do.call` is that better way.
+## `do.call` lets you provide arguments in a list, which is just what we had!
 
 ms2 = do.call(rbind, ms)
 
@@ -262,42 +262,3 @@ ms2 = do.call(rbind, ms)
 ## - Keeps your code clean and logical
 ## - Easy to develop and test
 ## - Easy to make parallel (we'll learn soon)
-
-## Intro to data
-
-## I downloaded the big zip file from the website to this path
-zip_file_path = "~/data/awards.zip"
-
-## Look at the help like this:
-?unzip
-
-## Carefully reading the documentation shows that we can list the files in this archive.
-files = unzip(zip_file_path, list = TRUE)
-
-## Let's pick a random file name to experiment with
-fname = "123.csv"
-
-## Now we can start poking around at this data frame.
-## Always be touching your data- getting familiar with it, exploring it.
-## This interactiveness is a strength of R.
-
-## Ask class- how do you do this?
-
-## The kind of object this is.
-## The other functions dispatch based on this value.
-## This is called object-oriented programming, and we'll learn more about it later in the quarter.
-class(grp)
-
-# Extract the file
-unzip(zip_file_path, files = fname)
-
-# Load it into R
-d = read.csv(fname)
-
-
-## We can extract _only_ this file from the archive if we like:
-f = unz(zip_file_path, file_name)
-
-## Then read it into a data frame
-grp = read.csv(f)
-
