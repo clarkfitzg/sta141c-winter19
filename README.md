@@ -4,6 +4,12 @@
 - [Canvas](https://canvas.ucdavis.edu/courses/290605)
 - [Class Data](http://anson.ucdavis.edu/~clarkf/sta141c/)
 
+Office Hours:
+
+- Clark Fitzgerald (rcfitzgerald@ucdavis.edu) Monday 1-2pm, Thursday 2-3pm both in MSB 4208 (conference room in the corner of the 4th floor of math building)
+- Si Teng Hao (ssthao@ucdavis.edu): Friday 2-4pm, statistics TA room in first floor of MSB
+
+
 ### Lectures
 
 Lecture content is in the [lecture directory](https://github.com/clarkfitzg/sta141c-winter19/tree/master/lecture).
@@ -11,6 +17,7 @@ Lecture content is in the [lecture directory](https://github.com/clarkfitzg/sta1
 Date    |   Topic
 --------| ----------------
 1-8     | introduction, syllabus, first steps in R
+1-10    | group by computation, zip files
 
 Catalog Description:
 
