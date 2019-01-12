@@ -209,7 +209,7 @@ SELECT month, date, max(total_obligation)
 FROM bikes
 GROUP BY month
 ;
-``
+```
 
 Let's start by making it work for just one month.
 
