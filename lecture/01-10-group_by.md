@@ -9,6 +9,35 @@
 
 ### Questions?
 
+> Homework takes 90 minutes. Is this too long? -Xiaoxi
+
+Yes, the problem came from trying to load all the data into memory at once.
+The idea is to process each group individually.
+
+> Can I use Python?
+
+Sure! Use whatever. `data.table::fread` is usually fast.
+
+Each file in the zip archive should contain exactly one agency (`agency_funding_id`), that doesn't appear anywhere else.
+
+What does qualitatively describe distribution mean?
+Basic, general description.
+Feel free to get fancy.
+
+```r
+x = rnorm(100)
+
+# How to time?
+system.time(hist(x))
+# From command line:
+# $ time Rscript scratch.R
+
+x[100] = 1000
+```
+
+No need to use all the functions in the hints.
+
+
 # Review
 
 Last class we loaded the data in by choosing one file that we wanted and unzipping that one into our current directory.
@@ -45,6 +74,14 @@ I could unzip everything beforehand.
 Do it with the point and click.
 
 __Question__: When should you use the point and click method?
+
+- Data is small enough.
+- If I only had the command line interface then I can't use GUI.
+- Repeatable
+- Automation- write a script!
+- Compose commands
+- Lazy - command line will stay the same.
+
 
 We can do it from R:
 ```r
@@ -110,6 +147,9 @@ It's especially helpful for large data sets with many groups because we can comp
 We can do this if each function `f(group)` can be computed independently, as in the example above with `f = sum`.
 
 __Question__: What are examples of functions `f` that __cannot__ be computed independently?
+
+A relevant example is when the function appends data to the same file.
+Multiple processes trying to write to the same file is __bad news__.
 
 Demo: tapply, as.Date, format
 
@@ -182,6 +222,8 @@ maxdate = grp$date[which.max(grp$price)]
 
 Here's what I want to end up with for each month.
 ```r
+# Janet observed that grp[, "month"] will make the data frame have more rows. Nice one!
+
 data.frame(price = maxprice, date = maxdate, month = grp[1, "month"])
 ```
 
@@ -259,6 +301,10 @@ rbind(ms[[1]], ms[[2]], ms[[3]], ms[[4]], ms[[4]], ms[[5]], ms[[6]], ms[[7]], ms
 Ewww! No way!
 __Question__ What's wrong with this?
 
+- Hardcoding!
+- Ugly!
+- Error prone!
+
 There must be a better way.
 do.call is that better way.
 do.call lets you provide arguments in a list, which is just what we had!
@@ -293,6 +339,16 @@ FROM bikes
 GROUP BY month;
 ```
 
+Elegant R:
+
+`aggregate` gives us something nicer than `tapply`.
+Thanks Rishi!
+```r
+aggregate(price ~ month, bikes, FUN = max)
+```
+
+split - apply in R:
+
 ```r
 max_price_date = function(grp)
 {
@@ -315,54 +371,3 @@ __Question__: What is good about this technique?
 - Keeps your code clean and logical
 - Easy to develop and test
 - Easy to make parallel (we'll learn soon)
-
-Intro to data
-
-I downloaded the big zip file from the website to this path
-```r
-zip_file_path = "~/data/awards.zip"
-```
-
-Look at the help like this:
-```r
-?unzip
-```
-
-Carefully reading the documentation shows that we can list the files in this archive.
-```r
-files = unzip(zip_file_path, list = TRUE)
-```
-
-Let's pick a random file name to experiment with
-```r
-fname = "123.csv"
-```
-
-Now we can start poking around at this data frame.
-Always be touching your data- getting familiar with it, exploring it.
-This interactiveness is a strength of R.
-
-Ask class- how do you do this?
-
-The kind of object this is.
-The other functions dispatch based on this value.
-This is called object-oriented programming, and we'll learn more about it later in the quarter.
-```r
-class(grp)
-
-# Extract the file
-unzip(zip_file_path, files = fname)
-
-# Load it into R
-d = read.csv(fname)
-
-```
-
-We can extract _only_ this file from the archive if we like:
-```r
-f = unz(zip_file_path, file_name)
-```
-
-Then read it into a data frame
-```r
-grp = read.csv(f)
