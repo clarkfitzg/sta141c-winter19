@@ -181,7 +181,7 @@ bikes$period_of_performance_start_date = NULL
 
 And make total_obligation a little shorter
 ```r
-colnames(bikes)[1] = "price"
+colnames(bikes)[2] = "price"
 
 ```
 
