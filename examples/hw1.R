@@ -29,3 +29,5 @@ plot(head(m, 100), log = "y"
      , xlab = "agency"
      , ylab = "median annual spending in dollars"
      )
+
+#debug(process_one)

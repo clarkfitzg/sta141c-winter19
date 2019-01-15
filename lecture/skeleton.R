@@ -5,11 +5,17 @@
 ## - Also, make questions public.
 ## - usaspending projects
 ## - Demo Pull request
-## - Clarify "memory leak", "garbage collection" show plot
-## - Better examples of group by operations.
+## - Clarification: Using too much memory is NOT a memory leak.
+## - Memory usage plot
+## - Better examples of group by computations:
+##      traffic sensor, customers
 ## - Google panel
 
 ## Questions?
+
+
+
+
 
 
 ## Debugging is an investment.
@@ -17,12 +23,16 @@
 
 # REPL
 
-## Syntax error:
+## This code contains a syntax error:
 
 process_file = function(fname)
 {
     rawcsv = unz(fname
 }
+
+
+
+
 
 
 
@@ -41,6 +51,17 @@ process_file = function(fname, zipfile = "~/data/awards.zip")
 ## Let's try to use it.
 
 out = process_file("123.csv")
+
+
+
+
+
+
+
+
+
+
+
 
 ## Let's confirm the zip file is where I think it is.
 
@@ -85,6 +106,10 @@ out = process_file("123.csv")
 
 
 
+
+
+
+
 # Another approach to development - functions first
 
 library(tm)
@@ -94,12 +119,20 @@ preprocess_string = function(text)
 {
 }
 
-
-
 ## Now we verify it works as expected.
 preprocess_string("STATISTICS statisticians statistical statistically")
 
-## We can incorporate it into our process_file function
+
+
+
+
+
+
+
+
+
+
+## Let's incorporate it into our process_file function
 
 
 
@@ -109,18 +142,53 @@ preprocess_string("STATISTICS statisticians statistical statistically")
 
 process_file("123.csv")
 
-## It didn't work :(
+
+
+
+
+
+
+
+
+
 
 ## Debugging to the rescue!
 
-## Explain stack
+
+
+
+
+
+
 
 ## error options
 
 ## We can control what R does when it sees an error by setting the global error option.
 
+
+
+
+
+
+
+
+
+
 ## This lets us view the traceback
 options(error = traceback)
+
+## What's a "stack"?
+
+
+
+
+
+
+
+
+
+
+
 
 options(error = recover)
 
@@ -153,7 +221,22 @@ out = process_file("123.csv")
 
 
 
+
+
+
+
+
+
+
+
 ## Adding lapply in the mix makes the stack trace more difficult to read.
+
+
+
+
+
+
+
 
 
 
@@ -163,6 +246,13 @@ out = process_file("123.csv")
 ## I expect to touch on this more later.
 
 preprocess_string(as.factor(letters))
+
+
+
+
+
+
+
 
 
 
