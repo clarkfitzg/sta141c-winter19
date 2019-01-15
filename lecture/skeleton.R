@@ -30,7 +30,7 @@ process_file = function(fname)
 
 
 
-## An actual mistake I made.
+## This function contains an actual mistake I made.
 
 process_file = function(fname, zipfile = "~/data/awards.zip")
 {
@@ -42,9 +42,19 @@ process_file = function(fname, zipfile = "~/data/awards.zip")
 
 out = process_file("123.csv")
 
-## Let's confirm the file is where I think it is.
+## Let's confirm the zip file is where I think it is.
 
-"awards.zip" %in% list.files("~/data")
+
+
+
+
+
+
+
+
+
+
+
 
 ## Do I have the correct order of the arguments to `unz`?
 ## Let's read the documentation:
@@ -68,7 +78,14 @@ process_file = function(fname, zipfile = "~/data/awards.zip")
 out = process_file("123.csv")
 
 
-# Top down approach
+
+
+
+
+
+
+
+# Another approach to development - functions first
 
 library(tm)
 
@@ -77,10 +94,15 @@ preprocess_string = function(text)
 {
 }
 
+
+
 ## Now we verify it works as expected.
 preprocess_string("STATISTICS statisticians statistical statistically")
 
 ## We can incorporate it into our process_file function
+
+
+
 
 
 ## Test it out:
@@ -126,9 +148,19 @@ out = process_file("123.csv")
 ## No.
 ## It's up to you to refine the processing steps.
 
+
+
+
+
+
+## Adding lapply in the mix makes the stack trace more difficult to read.
+
+
+
+
+
 ## PS: The error handling is customizable- you can do anything you want.
 ## I expect to touch on this more later.
-options(error = function() message("\n\nHakuna matata!\n\n"))
 
 preprocess_string(as.factor(letters))
 

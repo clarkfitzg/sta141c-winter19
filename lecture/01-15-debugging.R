@@ -6,6 +6,7 @@
 ## - usaspending projects
 ## - Demo Pull request
 ## - Clarify "memory leak"
+## - Discussion tomorrow Siteng will show how to set up private git repositories 
 ## - Google panel
 ## 
 ## Better examples of group by operations:
@@ -237,8 +238,10 @@ head(d)
 ## Entering into the tm::stemDocument frame we see that `x` is a factor, and this seems to have caused the issue.
 ## We can find out without even leaving the debugger.
 
+
 ## The problem came from the data frame reading in the strings as factors.
 ## We can change this by coercing factors to strings, or we can just say that we always want the strings to be factors by setting a global option.
+
 
 options(stringsAsFactors = FALSE)
 
@@ -249,6 +252,24 @@ out = process_file("123.csv")
 ## Is it stemming the words?
 ## No.
 ## It's up to you to refine the processing steps.
+
+## When we wrap the function calls into lapply the stack looks more confusing.
+
+fnames = c("123.csv", "45678.csv")
+
+lapply(fnames, process_file)
+
+## ```
+## 1: lapply(fnames, process_file)
+## 2: FUN(X[[i]], ...)
+## 3: #4: read.csv(rawcsv)
+## 4: read.table(file = file, header = header, sep = sep, quote = quote, dec = de
+## 5: open(file, "rt")
+## 6: open.connection(file, "rt")
+## ```
+
+## The `FUN(X[[i]], ...)` is our actual function `process_file`.
+
 
 ## PS: The error handling is customizable- you can do anything you want.
 ## I expect to touch on this more later.
