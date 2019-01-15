@@ -5,8 +5,8 @@
 ## - Also, make questions public.
 ## - usaspending projects
 ## - Demo Pull request
-## - Clarify "memory leak"
-## - Better examples of group by operations:
+## - Clarify "memory leak", "garbage collection" show plot
+## - Better examples of group by operations.
 ## - Google panel
 
 ## Questions?
