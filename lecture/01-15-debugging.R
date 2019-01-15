@@ -123,32 +123,153 @@ out = process_file("123.csv")
 ## > The description is the full path to the zip file, with ‘.zip’
 ## >      extension if required.
      
+# Ahh, needed to switch the order.
 
 process_file = function(fname, zipfile = "~/data/awards.zip")
 {
-    rawcsv = unz(fname, zipfile)
+    rawcsv = unz(zipfile, fname)
     d = read.csv(rawcsv)
 }
 
-## Let's try to use it.
-
 out = process_file("123.csv")
 
+## 
 
-## We can control what R does when it sees an error by setting a global option.
+## We're going to use the tm package.
+## tm for text mining
 
-options(error = traceback)
+library(tm)
+
+## Last week we saw the 'bottom up' approach to development:
+## Write some exploratory code and wrap it into a function.
+
+## We can also do the 'top down' approach:
+## Start with __empty__ functions.
+## Write their signatures and a short piece of documentation.
+## For example, I want to process the `description` column in this data, so I'm going to write a function to clean it up:
+
+# clean up the strings in preparation for subsequent processing
+preprocess_string = function(text)
+{
+    tm::stemDocument(text) 
+}
+
+## Now we verify it works as expected.
+preprocess_string("STATISTICS statisticians statistical statistically")
+
+## We can incorporate it into our workflow:
+
+process_file = function(fname, zipfile = "~/data/awards.zip")
+{
+    rawcsv = unz(zipfile, fname)
+    d = read.csv(rawcsv)
+    preprocess_string(d[, "description"])
+}
+
+## Test it out:
+
+process_file("123.csv")
+
+## It didn't work :(
+
+## Debugging to the rescue!
 
 ## Here's the stack trace:
 ## ```
-## 5: open.connection(file, "rt")
-## 4: open(file, "rt")
-## 3: read.table(file = file, header = header, sep = sep, quote = quote,
-##                      dec = dec, fill = fill, comment.char = comment.char, ...)
-## 2: read.csv(rawcsv) at #4
+## Error in UseMethod("stemDocument", x) :
+##   no applicable method for 'stemDocument' applied to an object of class "factor"
+## 3: tm::stemDocument(text) at #3
+## 2: preprocess_string(d[, "description"]) at #5
 ## 1: process_file("123.csv")
 ## ```
+## With experience you can sometimes stare these down and figure them out.
+## But the debugger is faster.
 
-## Draw picture of stack
+## Draw picture of stack.
+## This one has three frames.
+## From the interpreter prompt we called the function `proceess_file`, which called `preprocess_string`, which called `tm::stemDocument(text)`.
 
+## ## error options
+
+## We can control what R does when it sees an error by setting the global error option.
+
+## This lets us view the traceback
+options(error = traceback)
+
+## My favorite is `recover`, which will drop us directly into the debugger when we hit an error.
+## This is how I usually program.
+## It's often faster to throw something together, try it, and fix it rather than very rigorously work out how everything ought to behave.
+## And real data is always the real test of how robust your program is.
 options(error = recover)
+
+## Now when we hit that same error we will enter the browser, so we can walk up and down the stack frames..
+
+process_file("123.csv")
+
+## `Selection:` allows us to choose where we want to go.
+## `help` shows possible commands we can enter in the browser.
+## That <expr> means we can enter any R expression, which is super helpful.
+
+## `ls()` will list objects in the frame.
+## Make a prediction- what do you expect to see?
+## By the way- this sort of thing is what really tests how well you know the language.
+
+## ```
+## Selection: 1
+## Called from: top level
+## Browse[1]> help
+## n          next
+## s          step into
+## f          finish
+## c or cont  continue
+## Q          quit
+## where      show stack
+## help       show help
+## <expr>     evaluate expression
+## Browse[1]> ls()
+## [1] "d"       "fname"   "rawcsv"  "zipfile"
+## ```
+
+## We see the function arguments and the objects that have been defined in the function so far.
+
+head(d)
+
+## Entering into the tm::stemDocument frame we see that `x` is a factor, and this seems to have caused the issue.
+## We can find out without even leaving the debugger.
+
+## The problem came from the data frame reading in the strings as factors.
+## We can change this by coercing factors to strings, or we can just say that we always want the strings to be factors by setting a global option.
+
+options(stringsAsFactors = FALSE)
+
+## Now our function _should_ work.
+
+out = process_file("123.csv")
+
+## Is it stemming the words?
+## No.
+## It's up to you to refine the processing steps.
+
+## PS: The error handling is customizable- you can do anything you want.
+## I expect to touch on this more later.
+options(error = function() message("\n\nHakuna matata!\n\n"))
+
+preprocess_string(as.factor(letters))
+
+
+## ## Explicit debugging
+##
+## Sometimes we want to see what's going on even when there are no errors.
+## For example, you get some weird final result so you want to make sure that the input data is what you expected.
+## Then we can use the debugger.
+## Rstudio's debugger provides convenient visuals here.
+
+isdebugged(preprocess_string)
+
+debug(preprocess_string)
+
+out = process_file("123.csv")
+
+## Once we're in the debugger we can step through each line of code and verify our assumptions.
+
+## Other topics: `dump.frames`
