@@ -165,17 +165,19 @@ process_file("123.csv")
 
 ## We can control what R does when it sees an error by setting the global error option.
 
-
-
-
-
-
-
-
-
-
 ## This lets us view the traceback
 options(error = traceback)
+
+
+
+
+
+
+
+
+
+
+
 
 ## What's a "stack"?
 
