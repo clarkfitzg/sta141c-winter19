@@ -2,6 +2,7 @@
 
 ## - The homework took me between 30 minutes to 1 hour to run in serial.
 ##  Budget your time accordingly to complete this assignment.
+## - Memory usage plot
 
 ## ## Review
 
@@ -96,6 +97,49 @@ for(i in seq_along(x)){
 clusterSplit(cls, x)
 
 ## It sent one group to each worker node, along with the function `seq`,  and asked it to evaluate it.
+## Each workers evaluates `lapply(x_group, seq)` on their particular `x_group`, and then sends the result back to the manager.
+## Once the manager has collected all the results from all the workers it returns the result.
+## This is all overhead that the serial model doesn't have.
+
+## One problem is that this overhead of setting up and moving data takes time.
+## This is why parallel code is often slower than serial code.
+
+library(microbenchmark)
+
+microbenchmark(lapply(x, seq))
+
+microbenchmark(parLapply(cls, 1:4, seq))
+
+## In this case the parallel version was about 30 times slower than the serial version.
+## This is why we don't use parallelism until we're pretty sure that we need it.
+## In a future lecture we'll talk about profiling and benchmarking.
+
+## ## Preparing the workers
+
+## The most common error that programmers make is that they do not prepare the workers to do the work.
+
+## Initially, the workers have nothing in their global workspace:
+
+# Local:
+ls(envir = globalenv())
+
+# Same code called on each worker node:
+clusterCall(cls, ls, envir = globalenv())
+
+preprocess1 = function(x)
+{
+    tolower(x)
+}
+
+## a string, complete with a subliminal message.
+strings = c("Ask questions", "If you don't understand.")
+
+## `parLapply` will send a single function over.
+parLapply(cls, strings, preprocess1)
+
+## But it doesn't know what to do if you don't 
+
+
 
 ## One possible approach to synchronization is to just send everything to the workers.
 ## What's wrong with this?
