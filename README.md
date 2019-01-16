@@ -18,6 +18,8 @@ Date    |   Topic
 --------| ----------------
 1-8     | introduction, syllabus, first steps in R
 1-10    | group by computation, zip files
+1-15    | debugging
+1-17    | parallelism with independent local processors
 
 Catalog Description:
 
