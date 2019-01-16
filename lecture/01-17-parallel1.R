@@ -126,6 +126,8 @@ ls(envir = globalenv())
 # Same code called on each worker node:
 clusterCall(cls, ls, envir = globalenv())
 
+# `clusterCall` works just like `do.call`, only it calls the function on a cluster.
+
 preprocess1 = function(x)
 {
     tolower(x)
@@ -137,12 +139,64 @@ strings = c("Ask questions", "If you don't understand.")
 ## `parLapply` will send a single function over.
 parLapply(cls, strings, preprocess1)
 
-## But it doesn't know what to do if you don't 
+## This works fine.
+## Lets make it a little more complex by adding another step.
+
+civilize = function(x) paste("Please", x, "Thank you.")
+
+preprocess2 = function(x)
+{
+    result = tolower(x)
+    civilize(result)
+}
+
+## Works fine locally
+lapply(strings, preprocess2)
+
+## The problem is that the workers that already exist do not know about the new object I just created- the function `civilize`.
+## Indeed, how could they possibly know?
+## They do not share memory or any resources.
+## The only connection they have is a pipe to send data back and forth.
+## Let's make sure they don't know:
+
+clusterCall(cls, ls, envir = globalenv())
+
+## Of course, `parLapply` could be very smart.
+## It could look at the code for `preprocess2` and see that I use the function `civilize`, and somehow magically know that this is a function that I wrote, and that I actually mean to export and use it.
+## If `parLapply` is that smart, then this should work, just like it did locally.
+## If it doesn't, then it should return an error, saying it can't find the function `civilize`.  
+## Make your predictions!
+parLapply(cls, strings, preprocess2)
+
+## It's not that smart, not yet anyways.
+## This is the sort of thing I think about in my research, how to make the code smarter.
+
+## We need to explicitly send the object over.
+clusterExport(cls, "civilize")
+
+## Now it's there:
+
+clusterCall(cls, ls, envir = globalenv())
+
+## The general problem is to synchronize state so that the workers will behave as we want them to.
+## For example, we might load a library locally.
+
+library(tm)
+
+preprocess3 = function(x)
+{
+    result = tolower(x)
+    stemDocument(result)
+}
+
+lapply(strings, preprocess3)
+
+## Will the workers load the tm package as well?
+## I'm showing you a meta-technique here: pose a small question that will strengthen your mental model of how this all works.
+## If workers do load the tm package, then this will work.
 
 
 
 ## One possible approach to synchronization is to just send everything to the workers.
 ## What's wrong with this?
 ## If there are large objects in your workspace this will be inefficient.
-
-## __Question__: If you want to b
