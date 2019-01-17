@@ -3,6 +3,7 @@
 ## - The homework took me between 30 minutes to 1 hour to run in serial.
 ##  Budget your time accordingly to complete this assignment.
 ## - Memory usage plot
+## - Office hours today in 4th floor MSB
 
 ## ## Review
 
@@ -191,12 +192,45 @@ preprocess3 = function(x)
 
 lapply(strings, preprocess3)
 
-## Will the workers load the tm package as well?
+## Will the workers load the tm package if the manager loads it?
 ## I'm showing you a meta-technique here: pose a small question that will strengthen your mental model of how this all works.
+## This is 
 ## If workers do load the tm package, then this will work.
 
+parLapply(cls, strings, preprocess3)
 
+## Didn't work. Which means that we actually need to load the library.
+
+## `clusterEvalQ` evaluates arbitrary code on the cluster:
+
+clusterEvalQ(cls, library(tm))
+
+## Now it should work.
+
+parLapply(cls, strings, preprocess3)
+
+## The code is exactly the same.
+## It will only run if the workers are ready.
+## Furthermore, it will only give you the right answer if all the objects are as you expect them to be.
 
 ## One possible approach to synchronization is to just send everything to the workers.
 ## What's wrong with this?
-## If there are large objects in your workspace this will be inefficient.
+## If there are large objects in your workspace it will be inefficient.
+
+## ## Easy way
+
+## One easy way to synchronize things is to just write a script that contains all your functions and libraries.
+## I've put such a script in `preprocess.R`.
+## Let's start fresh with a new cluster and see it in action.
+
+stopCluster(cls)
+
+cls = makeCluster(2L, type = "PSOCK")
+
+clusterCall(cls, source, "preprocess.R")
+
+## Now it all works great.
+
+parLapply(cls, strings, preprocess3)
+
+
