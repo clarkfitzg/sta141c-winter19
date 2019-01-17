@@ -1,9 +1,11 @@
 ## ## Announcements
 
 ## - The homework took me between 30 minutes to 1 hour to run in serial.
-##  Budget your time accordingly to complete this assignment.
+##   Budget your time accordingly to complete this assignment.
 ## - Memory usage plot
 ## - Office hours today in 4th floor MSB
+## - Mid quarter inquiry scheduled for Thursday, Feb 7th.
+##   Please bring laptops.
 
 ## ## Review
 
@@ -82,7 +84,6 @@ zapsmall(x, digits = numeric())
 
 
 
-## Turn cluster off and on.
 
 
 
@@ -100,9 +101,7 @@ zapsmall(x, digits = numeric())
 
 
 
-## Basic usage, conversion from serial to parallel
 
-x = 1:4
 
 
 
@@ -118,8 +117,6 @@ x = 1:4
 
 
 
-## for loops, yuck!
-## Warning: what I'm about to show you is _hideously_ inefficient.
 
 
 
@@ -137,43 +134,9 @@ x = 1:4
 
 
 
-## functional vs procedural styles.
-## `lapply` is functional, `for` loop is procedural.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Is it difficult to convert embarrassingly parallel code to parallel?
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## What exactly happened?
-## Split, send, eval, receive
 
 clusterSplit(cls, x)
 
@@ -191,7 +154,6 @@ clusterSplit(cls, x)
 
 
 
-## Parallel code is often slower than serial code.
 
 
 
@@ -208,7 +170,6 @@ clusterSplit(cls, x)
 
 
 
-## The most common error that programmers make is that they do not prepare the workers to do the work.
 
 
 
@@ -225,7 +186,6 @@ clusterSplit(cls, x)
 
 
 
-## Initially, the workers have nothing in their global workspace.
 
 
 
@@ -243,60 +203,12 @@ clusterSplit(cls, x)
 
 
 
-## `parLapply` will send a single function over.
-parLapply(cls, strings, preprocess1)
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-## This works fine.
-## Lets make it a little more complex by adding another step.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Works fine locally
-lapply(strings, preprocess2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Do the workers know about this function I just wrote?
 ## Let's check.
 
 clusterCall(cls, ls, envir = globalenv())
@@ -309,32 +221,6 @@ clusterCall(cls, ls, envir = globalenv())
 
 
 
-
-
-
-
-
-
-
-
-## Of course, `parLapply` could be very smart.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## We need to explicitly send the object over.
 
 
 
