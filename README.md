@@ -204,3 +204,12 @@ The style is consistent and easy to read.
 Plots include titles, axis labels, and legends or special annotations where appropriate.
 Tables include only columns of interest, are clearly explained in the body of the report, and not too large.
 Writing is clear, correct English.
+
+
+#### Inquisitiveness
+
+The report points out anomalies or notable aspects of the data discovered over the course of the analysis.
+It discusses assumptions in the overall approach and examines how credible they are.
+It mentions ideas for extending or improving the analysis or the computation.
+
+
