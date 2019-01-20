@@ -182,10 +182,9 @@ The following describes what an excellent homework solution should look like:
 
 The report does the following:
 
-- solves all the questions contained in the prompt.
-- makes conclusions that are supported by evidence in the data.
-- points out any assumptions made and examines how credible they are. 
-- discusses efficiency and mentions alternative approaches.
+- solves all the questions contained in the prompt
+- makes conclusions that are supported by evidence in the data
+- discusses efficiency and limitations of the computation
 - cites any sources used
 
 The attached code runs without modification.
@@ -204,3 +203,10 @@ The style is consistent and easy to read.
 Plots include titles, axis labels, and legends or special annotations where appropriate.
 Tables include only columns of interest, are clearly explained in the body of the report, and not too large.
 Writing is clear, correct English.
+
+
+#### Inquisitiveness
+
+The report points out anomalies or notable aspects of the data discovered over the course of the analysis.
+It discusses assumptions in the overall approach and examines how credible they are.
+It mentions ideas for extending or improving the analysis or the computation.
