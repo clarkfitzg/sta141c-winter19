@@ -202,6 +202,7 @@ The style is consistent and easy to read.
 
 Plots include titles, axis labels, and legends or special annotations where appropriate.
 Tables include only columns of interest, are clearly explained in the body of the report, and not too large.
+Numbers are reported in human readable terms, i.e. 31 billion rather than 31415926535.
 Writing is clear, correct English.
 
 
