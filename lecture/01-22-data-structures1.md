@@ -33,6 +33,65 @@ This is in some sense the 'simplest' possible arrangement.
 Simple does not mean bad, it's practical and useful.
 
 
+## Vectorization
+
+Use `microbenchmark` for small timing experiments.
+
+Vectorized functions operate on entire vectors at once.
+
+```{r}
+library(microbenchmark)
+
+n = 1e4
+x = rnorm(n)
+
+# Fast- Vectorized
+microbenchmark(y <- exp(x))
+
+exp_apply = function(x) sapply(x, exp)
+
+# Slow
+microbenchmark(y_apply <- exp_apply(x))
+
+exp_loop_preallocated = function(x)
+{
+    # Preallocation means we create a place for the answers to go.
+    result = numeric(length(x))
+    for(i in seq_along(x)){
+        result[i] = exp(x[i])
+    }
+    result
+}
+
+# Turn off the byte code compiler
+enableJIT(0)
+
+# Slow
+# We prefer the apply version not because it's faster, but because it's cleaner and easier to parallelize.
+microbenchmark(y_loop_preallocated <- exp_loop_preallocated(y), times = 10L)
+
+exp_loop_growing = function(x)
+{
+    # Dynamically grow the result by appending to the end.
+    result = c()
+    for(i in seq_along(x)){
+        result = c(result, exp(x[i]))
+    }
+    result
+}
+
+# Disaster
+microbenchmark(y_loop_growing <- exp_loop_growing(y), times = 10L)
+
+```
+
+Moral of the story?
+
+- Prefer vectorization
+  String functions such as `tolower, gsub`, etc. are all vectorized.
+- Avoid dynamically growing objects
+
+
 ## Data types
 
 The goal today is to learn a little about how to reason about how large something is.
