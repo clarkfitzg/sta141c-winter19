@@ -2,12 +2,6 @@ Announcements:
 
 - My office hours Thursday will be in the Data Science Initiatve, Shields 360, right after class.
 
-on board:
-
-- review independent workers model for parallelism
-- pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
-- What the load balancing cluster apply does with chunking.
-
 ## Notes on first HW
 
 - Grades for HW1 are available.
@@ -18,7 +12,70 @@ on board:
   So put them on a table in units that make it easy for humans to read.
 - Submit homework in a format that Canvas can preview- pdf, html, docx.
   We're using the online system to grade- make it easy on the graders.
-  
+
+Questions:
+
+Do we have to comment code?
+
+Only where necessary, or where confusing
+
+# Bad:
+# get the first element of x
+x[1]
+
+# Better:
+# The first element of x is the name
+f(x[1])
+
+# Best:
+# Write code that doesn't need comments
+f(x["name"])
+
+What is an absolute path?
+
+DATADIR = "~/data/awards"
+
+# Don't change the working directory, or relative file paths won't work.
+
+/Users/clark/projects/sta141c-winter19/lecture/outlines/01-22-vectorize.md
+
+Will the pipe make the code faster?
+
+library(magrittr) # or dplyr
+x %>% f
+vs 
+f(x)
+
+# When is this good?
+# - easy to read
+result <- x %>%
+    f1 %>%
+    f2 %>%
+    f3
+
+result = f3(f2(f1(x)))
+
+# When is this good?
+# - if you need to actually use it!
+# - If they're small and in functions
+# - debugging!
+tmp1 = f1(x)
+tmp2 = f2(tmp1)
+result = f3(tmp2)
+
+# Suggestion: Maybe we can start with smaller data?
+Takes too long to run.
+
+# Homework due Wednesday
+# Office hours after class today- Shields library room 360 DSI
+
+on board
+
+- review independent workers model for parallelism
+- pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
+- What the load balancing cluster apply does with chunking.
+
+ 
 
 ## Vectorization
 

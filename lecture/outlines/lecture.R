@@ -1,299 +1,198 @@
-## Review
-
-
-Call `debug` on a function to enter the browser when that function is called.
-
-```r
-debug(zapsmall)
-
-x = c(1, 1e-12)
-
-zapsmall(x)
-
-undebug(zapsmall)
-```
-
-Set `options(error = recover)` to enter the debugger upon failure.
-
-```r
-options(error = recover)
-
-zapsmall(x, digits = numeric())
-```
-
-## Introduction to Parallelism
-
-(Slides)[https://docs.google.com/presentation/d/1qmnBM6hwl-nu2wf9sPF8pIxWEtlPd-6O2DH7aq0CZWU/edit?usp=sharing]
-
-Today: Local parallelism without shared memory
-
-Works on any machine including Windows
-
-__Question__: Why use a recommended package?
-1. Code and API is stable
-2. Well tested and supported
-3. It will always be there for you
-
-working definitions:
-- manager: the process that assigns and collect work
-- worker / node: the process that performs the work
-- cluster: the collection of worker nodes
-
-
-Turn cluster off and on
-
-```r
-library(parallel)
-
-cls = makeCluster(2L, type = "PSOCK")
-
-stopCluster(cls)
-
-cls = makeCluster(2L, type = "PSOCK")
-```
-
-Basic usage, conversion from serial to parallel
-
-```r
-x = 1:4
-
-lapply(x, seq)
-
-parLapply(cls, 1:4, seq)
-```
-
-for loops, yuck!
-Warning: what I'm about to show you is _hideously_ inefficient.
-
-```r
-result = list()
-for(i in seq_along(x)){
-    result[[i]] = seq(x[[i]])
-}
-```
-
-Compare and contrast functional vs procedural styles.
-`lapply` is functional, `for` loop is procedural.
-
-__Question__ Is it difficult to convert embarrassingly parallel code to parallel?
-
-What exactly happened?
-Split, send, eval, receive
-
-```r
-clusterSplit(cls, x)
-```
-
-Parallel code is often slower than serial code.
-
-```r
-library(microbenchmark)
-
-microbenchmark(lapply(x, seq))
-
-microbenchmark(parLapply(cls, 1:4, seq))
-```
-
-The *most common error* is that the workers are not ready.
-
-Initially, the workers have nothing in their global workspace.
-
-```r
-# Local:
-ls(envir = globalenv())
-
-do.call(ls, args = list(envir = globalenv()))
-
-# Same code called on each worker node:
-clusterCall(cls, ls, envir = globalenv())
-
-# `clusterCall` works just like `do.call`, only it calls the function on a cluster.
-
-preprocess1 = function(x)
-{
-    tolower(x)
-}
-
-strings = c("Ask questions", "If you don't understand.")
-
-```
-
-`parLapply` will send a single function over.
-
-```r
-parLapply(cls, strings, preprocess1)
-```
-
-Lets make it a little more complex by adding another step.
-
-```r
-civilize = function(x) paste("Please", x, "Thank you.")
-
-preprocess2 = function(x)
-{
-    result = tolower(x)
-    civilize(result)
-}
-
-lapply(strings, preprocess2)
-```
-
-Do the workers know about this function I just wrote?
-
-```r
-clusterCall(cls, ls, envir = globalenv())
-```
-
-How smart is `parLapply`?
-
-```r
-parLapply(cls, strings, preprocess2)
-```
-
-Explicitly send the object over
-
-```r
-clusterExport(cls, "civilize")
-
-clusterCall(cls, ls, envir = globalenv())
-
-parLapply(cls, strings, preprocess2)
-```
-
-The general problem is to synchronize state
-
-```r
-library(tm)
-
-preprocess3 = function(x)
-{
-    result = tolower(x)
-    stemDocument(result)
-}
-
-lapply(strings, preprocess3)
-```
-
-__Question__ Will the workers load the tm package if the manager loads it?
-
-Important meta-technique: pose a small question that will strengthen your mental model of how this all works.
-
-```r
-parLapply(cls, strings, preprocess3)
-```
-
-`clusterEvalQ` evaluates arbitrary code on the cluster:
-
-```r
-clusterEvalQ(cls, library(tm))
-
-parLapply(cls, strings, preprocess3)
-```
-
-The code is exactly the same.
-It will only run if the workers are ready.
-
-__Question__ Why not just send everything to the workers every time?
-
-__Question__ What is a good way to prepare workers?
-
-How do we normally do it?
-
-Write a script!
-
-```r
-stopCluster(cls)
-
-cls = makeCluster(2L, type = "PSOCK")
-
-clusterCall(cls, source, "preprocess.R")
-
-parLapply(cls, strings, preprocess3)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Announcements
+# Announcements:
 # 
-# - The homework took me between 30 minutes to 1 hour to run in serial.
-#  Budget your time accordingly to complete this assignment.
-# - Better to use R for this assignment, because `tm` package all ready to go on the cluster
-# - Memory usage plot
-# - Office hours today 2PM in 4th floor MSB
+# - 
+# - My office hours Thursday will be in the Data Science Initiatve, Shields 360, right after class.
+# 
+# ## Notes on first HW
+# 
+# - Grades for HW1 are available.
+#   Ask Siteng in OH if you have questions / clarifications.
+# - Difference between formatting numbers for humans and for machines.
+#   What's this number? 3414992319 is 3.4 billion
+#   Communication- a report is for communicating with humans.
+#   So put them on a table in units that make it easy for humans to read.
+# - Submit homework in a format that Canvas can preview- pdf, html, docx.
+#   We're using the online system to grade- make it easy on the graders.
+# 
+# 
+# on board
+# 
+# - review independent workers model for parallelism
+# - pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
+# - What the load balancing cluster apply does with chunking.
+# 
+#  
+# 
+# ## Vectorization
+# 
+# Use `microbenchmark` for small timing experiments.
+# 
+# Vectorized functions operate on entire vectors at once.
+# 
+# ```{r}
+# library(microbenchmark)
+# 
+# n = 1e4
+# x = rnorm(n)
+# 
+# # Fast- Vectorized
+# microbenchmark(y <- exp(x))
+# 
+# # This is not how exp is designed to be used.
+# exp_apply = function(x) sapply(x, exp)
+# 
+# # Slow
+# microbenchmark(y_apply <- exp_apply(x))
+# 
+# exp_loop_preallocated = function(x)
+# {
+#     # Preallocation means we create a place for the answers to go.
+#     result = numeric(length(x))
+#     for(i in seq_along(x)){
+#         result[i] = exp(x[i])
+#     }
+#     result
+# }
+# 
+# # Turn off the byte code compiler
+# enableJIT(0)
+# 
+# # Slow
+# microbenchmark(y_loop_preallocated <- exp_loop_preallocated(y), times = 10L)
+# 
+# 
+# exp_loop_growing = function(x)
+# {
+#     # Dynamically grow the result by appending to the end.
+#     result = c()
+#     for(i in seq_along(x)){
+#         result = c(result, exp(x[i]))
+#     }
+#     result
+# }
+# 
+# # Disaster
+# microbenchmark(y_loop_growing <- exp_loop_growing(y), times = 10L)
+# 
+# ```
+# 
+# Moral of the story?
+# 
+# - Prefer vectorization whenever possible.
+#   String functions such as `tolower, gsub`, etc. are all vectorized.
+# - Apply functions are clean, easier to parallelize, and they always preallocate correctly.
+# - Avoid dynamically growing objects
+# 
+# 
+# 
+# ## Data types
+# 
+# The goal today is to learn a little about how to reason about how large something is.
+# Number crunching is fast because of contiguous blocks of homogeneously typed memory.
+# 
+# Question: What are the possible low level types for R in memory?
+# - 
+# 
+# ```{r}
+# typeof(TRUE)
+# typeof(1L)
+# typeof(1)
+# typeof(1+0i)
+# typeof(raw(10L))
+# ```
+# 
+# Characters and factors are a little different.
+# 
+# ```{r}
+# typeof("words and more words")
+# 
+# f = as.factor(c("female", "male", "female"))
+# 
+# typeof(f)
+# 
+# f
+# ```
+# 
+# Factors are actually stored as integers.
+# How does R know what value to print?
+# 
+# It has an internal lookup table matching the integers to character strings.
+# 
+# ```{r}
+# levels(f)
+# ```
+# 
+# How do we calculate how large an array is?
+# 
+# ```{r}
+# n = 1000
+# p = 500
+# x = matrix(rnorm(n * p), nrow = n)
+# 
+# typeof(x)
+# 
+# # Expert knowledge!
+# bytes_per_double = 8
+# 
+# expected_size = n * p * bytes_per_double
+# ```
+# 
+# Is the object the expected size?
+# 
+# ```{r}
+# object.size(x)
+# ```
+# 
+# Not exactly.
+# Question: Why not?
+# Because R has some memory overhead per object, a few bytes of metadata hanging out for every object.
+# 
+# Question: How large will it be if we store this in a general container, like a list?
+# 
+# ```{r}
+# xl = lapply(x, identity)
+# object.size(xl)
+# 
+# as.numeric(object.size(xl) / object.size(x))
+# ```
+# 
+# The list is 8 times bigger than the efficient matrix form. :(
+# 
+# Which one is faster?
+# 
+# ```{r}
+# library(microbenchmark)
+# sum(x)
+# microbenchmark(sum(x))
+# microbenchmark(do.call(sum, xl))
+# ```
+# 
+# The matrix is 2 orders of magnitude faster.
+# 
+# For efficiency we like small objects, and fast code.
+# 
+# 
+# ## Matrix
+# 
+# Use the right data structure to increase speed and reduce memory usage.
+# 
+# ```{r}
+# library(Matrix)
+# 
+# m = Matrix(1:10, nrow = 2)
+# 
+# class(m)
+# ```
+# 
+# So what's a dgeMatrix?
+# We need to look up the help page for the class.
+# 
+# ```{r}
+# ?dgeMatrix # Nope
+# 
+# class?dgeMatrix
+# ```
 
-# Review
-
-# Call debug on a function to enter the browser when that function is called.
-
-x = c(1, 1e-12)
-
-zapsmall(x)
-
-undebug(zapsmall)
-
-# recover from errors
-
-options(error = recover)
-
-zapsmall(x, digits = numeric())
-
-
-# Turn a cluster off and on
-
-library(parallel)
-
-cls = makeCluster(2L, type = "PSOCK")
-
-stopCluster(cls)
-
-# manager: assigns and collects work
-# worker: process performing work
-# cluster: collection of workers
-
-# Why use a recommended package?
-# - well maintained!
-# - it's always there
-# - (probably) well documented
-
-
-cls = makeCluster(2L, type = "PSOCK")
-
-# Basic usage
-
-x = 1:4
-
-# Functional programming
-lapply(x, seq)
-
-parLapply(cls, x, seq)
-
-# Why not for loops?
-
-# procedural programming
-# WARNING: Do not do this in R!
-result = list()
-for(i in seq_along(x)){
-    arg = x[i]
-    result[[i]] = seq(arg)
-}
 
 
 
@@ -302,102 +201,114 @@ for(i in seq_along(x)){
 
 
 
-# What exactly happened?
-# splits, sends, evaluates, returns
 
-clusterSplit(cls, x)
 
-# Overhead often causes parallel code to be SLOWER!
+
+
+
+
+
+
+
 
 library(microbenchmark)
 
+n = 1e4
+x = rnorm(n)
 
+# 100 microseconds
+microbenchmark(y <- exp(x))
 
-microbenchmark(lapply(x, seq))
+# 3 milliseconds
+microbenchmark(y2 <- sapply(x, exp))
 
-microbenchmark(parLapply(cls, x, seq))
+all(y == y2)
 
-
-# Same thing:
-# process, core, worker
-
-# How many cores does it have?
-detectCores()
-
-# The *most common* error is that the workers are not ready to work.
-
-Initially the workers don't have any variables or data.
-
-ls(envir = globalenv())
-
-do.call(ls, args = list(envir = globalenv()))
-
-clusterCall(cls, ls, envir = globalenv())
-
-
-preprocess1 = function(x)
+exp_loop_preallocate = function(x)
 {
-    tolower(x)
+    # Here's the preallocation:
+    # Make space for our result
+    result = numeric(length(x))
+    for(i in seq_along(x)){
+        result[i] = exp(x[i])
+    }
 }
 
-strings = c("Ask questions", "if you don't understand")
+library(compiler)
+enableJIT(0)
 
-lapply(strings, preprocess1)
+# Without byte code compiler:
+# Around 8 ms
+microbenchmark(y3 <- exp_loop_preallocate(x))
 
-parLapply(cls, strings, preprocess1)
+# What if we turn on the byte code compiler?
+enableJIT(0)
 
-# Let's make it more complex.
+# Now it's 900 microseconds
+microbenchmark(y3 <- exp_loop_preallocate(x))
 
-civilize = function(x) paste("Please", x, "Thank you.")
-
-preprocess2 = function(x)
+# What happens when we do not preallocate?
+exp_loop_bad = function(x)
 {
-    y = tolower(x)
-    civilize(y)
+    # Dynamically build the result
+    result = c()
+    for(i in seq_along(x)){
+        result = c(result, exp(x[i]))
+    }
 }
 
-lapply(strings, preprocess2)
+# Around 160 milliseconds
+microbenchmark(y4 <- exp_loop_bad(x), times = 10L)
 
-# Do the workers know about the civilize function?
+# vectorized: 100 microseconds
+# sapply: 4 ms
+# with preallocation: 8 ms
+# without preallocation: 160 ms
 
-parLapply(cls, strings, preprocess2)
-
-# Send the civilize function over
-
-clusterExport(cls, "civilize")
-
-clusterCall(cls, ls, envir = globalenv())
-
-#clusterCall(cls, ls)
-
-# The more general problem is synchronizing state on the workers
-
-library(tm)
-
-preprocess3 = function(x)
-{
-    y = tolower(x)
-    stemDocument(y)
-}
-
-lapply(strings, preprocess3)
+# Takeaways:
+# - Always use vectorization if you can.
+# Why do we like apply?
+# - easier code to write and read
+# - it's easy to make it parallel
+# - not possible to make "growing vector" error
 
 
+# Data types
 
-parLapply(cls, strings, preprocess3)
+# What are the possible data types in R?
 
-# Can we synchronize everything all at once?
+# How it acts
+class(1)
 
-# Another way... a very good way
-# Just write a script or function
+# How it is stored / represented in memory
+typeof(1)
 
-source("preprocess.R")
+typeof(TRUE)
 
-cls = makeCluster(2L, type = "PSOCK")
+typeof(1L)
 
-clusterEvalQ(cls, source("preprocess.R"))
+typeof(1)
 
-clusterCall(cls, ls, envir = globalenv())
+r = as.raw(1:4)
 
-parLapply(cls, strings, preprocess3)
+typeof(r)
+
+d = as.Date("2018-10-10")
+typeof(d)
+class(d)
+
+f = as.factor(c("male", "female", "female"))
+
+class(f)
+
+typeof(f)
+
+as.integer(f)
+
+levels(f)
+
+
+
+typeof("abc")
+
 
