@@ -1,3 +1,7 @@
+Announcements:
+
+- Office hour Thursday will be in Shields 360, the data science initiative classroom.
+
 topics: 
 
 - pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
