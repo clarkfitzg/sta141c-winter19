@@ -1,12 +1,7 @@
 topics: 
 
-- data types
-- object sizes in memory
-- triple store sparse matrix
-- Matrix package, S4 classes, slots
-- Column oriented / row oriented
-- Map, mapply
-
+- pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
+- What the load balancing cluster apply does with chunking.
 
 ## Notes on first HW
 
@@ -25,11 +20,11 @@ topics:
 Last class we learned a simple model for parallelism.
 One manager gives commands to multiple workers and waits for the results in real time.
 Nobody shares anything- the manager has to explicitly transfer data.
-We have to explicitly synchronize all the state.
 
 
 ## Data types
 
+The goal today is to learn a little about how to reason about how large something is.
 Number crunching is fast because of contiguous blocks of homogeneously typed memory.
 
 Question: What are the possible low level types for R in memory?
@@ -40,6 +35,7 @@ typeof(TRUE)
 typeof(1L)
 typeof(1)
 typeof(1+0i)
+typeof(raw(10L))
 ```
 
 Characters and factors are a little different.
@@ -54,19 +50,16 @@ typeof(f)
 f
 ```
 
-So factors are actually stored as integers.
+Factors are actually stored as integers.
 How does R know what value to print?
 
 It has an internal lookup table matching the integers to character strings.
-Here's the table:
 
 ```{r}
 levels(f)
 ```
 
 How do we calculate how large an array is?
-Arrays are a generalization of matrices, so we can just think about matrices.
-
 
 ```{r}
 n = 1000
@@ -91,4 +84,48 @@ Not exactly.
 Question: Why not?
 Because R has some memory overhead per object, a few bytes of metadata hanging out for every object.
 
+Question: How large will it be if we store this in a general container, like a list?
 
+```{r}
+xl = lapply(x, identity)
+object.size(xl)
+
+as.numeric(object.size(xl) / object.size(x))
+```
+
+The list is 8 times bigger than the efficient matrix form. :(
+
+Which one is faster?
+
+```{r}
+library(microbenchmark)
+sum(x)
+microbenchmark(sum(x))
+microbenchmark(do.call(sum, xl))
+```
+
+The matrix is 2 orders of magnitude faster.
+
+For efficiency we like small objects, and fast code.
+
+
+## Matrix
+
+Use the right data structure to increase speed and reduce memory usage.
+
+```{r}
+library(Matrix)
+
+m = Matrix(1:10, nrow = 2)
+
+class(m)
+```
+
+So what's a dgeMatrix?
+We need to look up the help page for the class.
+
+```{r}
+?dgeMatrix # Nope
+
+class?dgeMatrix
+```
