@@ -1,12 +1,13 @@
-topics: 
+on board:
 
+- review independent workers model for parallelism
 - pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
 - What the load balancing cluster apply does with chunking.
 
 ## Notes on first HW
 
 - Grades for HW1 are available.
-  Ask Siteng if you have questions / clarifications.
+  Ask Siteng in OH if you have questions / clarifications.
 - Difference between formatting numbers for humans and for machines.
   What's this number? 3414992319 is 3.4 billion
   Communication- a report is for communicating with humans.
@@ -15,11 +16,66 @@ topics:
   We're using the online system to grade- make it easy on the graders.
   
 
-## Review
+## Vectorization
 
-Last class we learned a simple model for parallelism.
-One manager gives commands to multiple workers and waits for the results in real time.
-Nobody shares anything- the manager has to explicitly transfer data.
+Use `microbenchmark` for small timing experiments.
+
+Vectorized functions operate on entire vectors at once.
+
+```{r}
+library(microbenchmark)
+
+n = 1e4
+x = rnorm(n)
+
+# Fast- Vectorized
+microbenchmark(y <- exp(x))
+
+# This is not how exp is designed to be used.
+exp_apply = function(x) sapply(x, exp)
+
+# Slow
+microbenchmark(y_apply <- exp_apply(x))
+
+exp_loop_preallocated = function(x)
+{
+    # Preallocation means we create a place for the answers to go.
+    result = numeric(length(x))
+    for(i in seq_along(x)){
+        result[i] = exp(x[i])
+    }
+    result
+}
+
+# Turn off the byte code compiler
+enableJIT(0)
+
+# Slow
+microbenchmark(y_loop_preallocated <- exp_loop_preallocated(y), times = 10L)
+
+
+exp_loop_growing = function(x)
+{
+    # Dynamically grow the result by appending to the end.
+    result = c()
+    for(i in seq_along(x)){
+        result = c(result, exp(x[i]))
+    }
+    result
+}
+
+# Disaster
+microbenchmark(y_loop_growing <- exp_loop_growing(y), times = 10L)
+
+```
+
+Moral of the story?
+
+- Prefer vectorization whenever possible.
+  String functions such as `tolower, gsub`, etc. are all vectorized.
+- Apply functions are clean, easier to parallelize, and they always preallocate correctly.
+- Avoid dynamically growing objects
+
 
 
 ## Data types

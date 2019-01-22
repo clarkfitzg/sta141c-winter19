@@ -1,7 +1,3 @@
-Announcements:
-
-- Office hour Thursday will be in Shields 360, the data science initiative classroom.
-
 topics: 
 
 - pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
@@ -14,18 +10,7 @@ topics:
 - Column oriented / row oriented
 - agglomerative clustering
 
-
-## Notes on first HW
-
-- Grades for HW1 are available.
-  Ask Siteng if you have questions / clarifications.
-- Difference between formatting numbers for humans and for machines.
-  What's this number? 3414992319 is 3.4 billion
-  Communication- a report is for communicating with humans.
-  So put them on a table in units that make it easy for humans to read.
-- Submit homework in a format that Canvas can preview- pdf, html, docx.
-  We're using the online system to grade- make it easy on the graders.
-  
+ 
 
 ## Review
 
@@ -94,6 +79,7 @@ Moral of the story?
 - Prefer vectorization
   String functions such as `tolower, gsub`, etc. are all vectorized.
 - Avoid dynamically growing objects
+
 
 
 ## Data types
