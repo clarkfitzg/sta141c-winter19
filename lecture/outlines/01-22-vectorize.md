@@ -1,3 +1,7 @@
+Announcements:
+
+- My office hours Thursday will be in the Data Science Initiatve, Shields 360, right after class.
+
 on board:
 
 - review independent workers model for parallelism
