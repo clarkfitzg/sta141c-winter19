@@ -10,7 +10,75 @@ topics:
 - Column oriented / row oriented
 - agglomerative clustering
 
- 
+Questions:
+
+> Do we have to comment code?
+
+Only where necessary, or where confusing
+
+```{r}
+# Bad:
+# get the first element of x
+x[1]
+
+# Better:
+# The first element of x is the name
+f(x[1])
+
+# Best:
+# Write code that doesn't need comments
+f(x["name"])
+```
+
+> The workers can't find the script / files.
+
+Then don't change the working directory (`setwd`), or relative file paths won't work.
+Alternatively, you can use absolute paths, such as
+`/Users/clark/projects/sta141c-winter19/lecture/outlines/01-22-vectorize.md`.
+
+> Will the pipe make the code faster?
+
+Nope.
+It just changes the style.
+
+Example pipe usage:
+
+```{r}
+library(magrittr) # or dplyr
+result <- x %>%
+    f1 %>%
+    f2 %>%
+    f3
+```
+
+Why is this good?
+
+- easy to read
+
+Without pipes:
+
+```{r}
+result = f3(f2(f1(x)))
+```
+
+With intermediate data:
+
+```{r}
+tmp1 = f1(x)
+tmp2 = f2(tmp1)
+result = f3(tmp2)
+```
+
+When is this good?
+- if you need to actually use temporary variables
+- If they're small and in functions, since they'll be garbage collected same as with the pipe
+- easier debugging
+
+
+> Suggestion: Maybe we can start with smaller data?
+> HW takes too long to do / run.
+
+
 
 ## Review
 
@@ -119,86 +187,4 @@ Here's the table:
 levels(f)
 ```
 
-How do we calculate how large an array is?
-Arrays are a generalization of matrices, so lets just think about matrices.
 
-```{r}
-n = 1000
-p = 500
-x = matrix(rnorm(n * p), nrow = n)
-
-typeof(x)
-
-# Expert knowledge!
-bytes_per_double = 8
-
-expected_size = n * p * bytes_per_double
-```
-
-Is the object the expected size?
-
-```{r}
-object.size(x)
-```
-
-Not exactly.
-Question: Why not?
-Because R has some memory overhead per object, a few bytes of metadata hanging out for every object.
-
-Question: How large will it be if we store this in a general container, like a list?
-
-```{r}
-xl = lapply(x, identity)
-object.size(xl)
-
-as.numeric(object.size(xl) / object.size(x))
-```
-
-The list is 8 times bigger than the efficient matrix form.
-
-Which one is faster?
-
-```{r}
-library(microbenchmark)
-sum(x)
-microbenchmark(sum(x))
-microbenchmark(do.call(sum, xl))
-```
-
-Yes, we go from around 400 microseconds to 40 milliseconds, which means that the array form is 2 orders of magnitude faster.
-
-For efficiency we like small objects, and fast code.
-
-```{r}
-object.size(1:1e10)
-```
-
-## Matrix
-
-Statisticians, scientists, engineers, everyone loves matrices.
-There are all kinds of special ones.
-By using data structures that account for special structure in our data, we can increase speed and reduce memory usage.
-
-For the next homework I will ask you to play around with sparse matrices.
-Sparse matrices mean that most entries are zero.
-
-I'll demonstrate the robust, recommended Matrix package.
-
-```{r}
-library(Matrix)
-
-m = Matrix(1:10, nrow = 2)
-
-class(m)
-```
-
-So what's a dgeMatrix?
-We need to look up the help page for the class.
-
-```{r}
-?dgeMatrix # Nope
-
-class?dgeMatrix
-```
-
-The help page says that this is a general class of dense matrix and lists many methods that are defined for this class.
