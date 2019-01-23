@@ -1,14 +1,7 @@
 topics: 
 
 - pictures of replicate, lapply (sapply), tapply, apply, Map, mapply, rapply
-- What the load balancing cluster apply does with chunking.
 - data types
-- object sizes in memory
-- triple store sparse matrix
-- Matrix package, S4 classes, slots
-- Efficient matrix algebra
-- Column oriented / row oriented
-- agglomerative clustering
 
 Questions:
 
