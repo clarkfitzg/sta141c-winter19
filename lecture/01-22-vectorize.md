@@ -137,8 +137,9 @@ microbenchmark(y_loop_growing <- exp_loop_growing(y), times = 10L)
 
 Moral of the story?
 
-- Prefer vectorization
+- Prefer vectorization whenever possible.
   String functions such as `tolower, gsub`, etc. are all vectorized.
+- Apply functions are clean, easier to parallelize, and they always preallocate correctly.
 - Avoid dynamically growing objects
 
 
