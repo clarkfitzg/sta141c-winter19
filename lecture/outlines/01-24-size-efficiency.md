@@ -1,3 +1,8 @@
+
+What we did: dig into this awards data
+Where we are now: analyzing awards data
+Where we're going next: Larger data set on the cluster
+
 ## Review
 
 Last lecture I forgot to mention `apply`, that operates over the margins of a matrix, or array more generally.
