@@ -20,6 +20,8 @@ Date    |   Topic
 1-10    | group by computation, zip files
 1-15    | debugging
 1-17    | parallelism with independent local processors
+1-22    | vectorization, apply family of functions
+1-24    | size and efficiency of objects, intro to S4 / Matrix
 
 Catalog Description:
 
