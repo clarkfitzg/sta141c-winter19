@@ -1,378 +1,226 @@
-# 
-# What we did: dig into this awards data
-# Where we are now: analyzing awards data
-# Where we're going next: Larger data set on the cluster
-# 
-# ## Review
-# 
-# Last lecture I forgot to mention `apply`, that operates over the margins of a matrix, or array more generally.
-# 
-# 
-# ## Object sizes in memory
-# 
-# How do we calculate how large a matrix / array is?
-# 
-# ```{r}
-# n = 1000
-# p = 500
-# x = matrix(rnorm(n * p), nrow = n)
-# 
-# typeof(x)
-# 
-# # Expert knowledge!
-# bytes_per_double = 8
-# 
-# expected_size = n * p * bytes_per_double
-# ```
-# 
-# Is the object the expected size?
-# 
-# ```{r}
-# object.size(x)
-# 
-# object.size(x) - expected_size 
-# ```
-# 
-# No, the actual object size is _slightly_ larger.
-# Why?
-# 
-# Because R has some memory overhead per object, a few bytes of metadata hanging out for every object.
-# 
-# 
-# Question: How large will it be if we store this in a general container, like a list?
-# 
-# ```{r}
-# xl = lapply(x, identity)
-# object.size(xl)
-# 
-# as.numeric(object.size(xl) / object.size(x))
-# ```
-# 
-# The list is 8 times bigger than the efficient matrix form.
-# 
-# Which one is faster?
-# 
-# ```{r}
-# library(microbenchmark)
-# sum(x)
-# microbenchmark(sum(x))
-# microbenchmark(do.call(sum, xl))
-# ```
-# 
-# Lesson:
-# Using efficient data structures results in small objects and fast code.
-# 
-# Which is more efficient?
-# - Millions of objects   :(
-# - Millions of data elements inside one object :)
-# 
-# The latter is far more efficient, both in storage and computation.
-# 
-# 
-# ## Matrix
-# 
-# Everyone loves matrices.
-# Seriously, they're a huge topic in computing.
-# 
-# Matrix package, object oriented programming
-# 
-# Question: From your math classes, what kind of matrices do you know that have special structure?
-# 
-# Classes:
-# - symmetric
-# - diagonal
-# - banded
-# - orthogonal
-# 
-# Question: What kind of methods should we write for matrices?
-# 
-# Methods:
-# - `+, -, %*%`
-# - decompositions
-# 
-# Object oriented programming is about organization and extensibility.
-# 
-# R has _several_ object oriented systems.
-# S3 is the basic one, plot, summary
-# 
-# ```{r}
-# > plot
-# function (x, y, ...)
-# UseMethod("plot")
-# <bytecode: 0x2c790a8>
-# <environment: namespace:graphics>
-# ```
-# 
-# The Matrix package uses the S4 system.
-# Many good references
-# 
-# The [Matrix manual](https://cran.r-project.org/web/packages/Matrix/Matrix.pdf) itself is substantial- 200+ pages. 
-# Explain a little bit what each part does:
-# - Class name
-# - Slots
-# - Extends
-# - Methods
-# - See Also
-# - Examples
-# 
-# The S4 machinery lives in the `methods` package, so we should load that up.
-# 
-# ```{r}
-# library(methods)
-# 
-# library(Matrix)
-# 
-# m = Matrix(1:9, nrow = 3)
-# 
-# class(m)
-# ```
-# 
-# So what's a dgeMatrix?
-# 
-# ```{r}
-# class?dgeMatrix
-# ```
-# 
-# A general class for dense matrices and lists many methods that are defined for this class.
-# 
-# ```{r}
-# str(m)
-# ```
-# 
-# This shows the underlying components, called __slots__, that together comprise an object of that class.
-# We can peer into the implementation and access the slots using the `@` operator.
-# 
-# ```{r}
-# m@x
-# m@Dim
-# 
-# class(m@x)
-# class(m@Dim)
-# ```
-# 
-# This shows how the data is actually stored as a one dimensional numeric vector.
-# 
-# There are three ways to create objects of some class:
-# 
-# ```{r}
-# m = Matrix(1:9, nrow = 3)
-# 
-# as(m, "matrix")
-# 
-# new("dgeMatrix", x = rnorm(9), Dim = c(3L, 3L))
-# ```
-# 
-# Question: Will a diagonal matrix be smaller than a dense general matrix?
-# Hopefully, it only has to store n entries.
-# 
-# ```{r}
-# n = 1000
-# x = Matrix(rnorm(n * n), nrow = n)
-# 
-# # More practice: How large should the data in here be?
-# n * n * bytes_per_double
-# 
-# # We're off by ~1KB because of the overhead of having objects in R.
-# object.size(x)
-# ```
-# 
-# Let's construct a diagonal matrix from this.
-# 
-# Question: Can we use `as`?
-# It's a little ambiguous.
-# 
-# ```{r}
-# # fails
-# d = as(x, "ddiMatrix")
-# 
-# # Works, we're being explicit about what we want.
-# d = Diagonal(x = diag(x))
-# ```
-# 
-# Conversely, it's not ambiguous to convert a diagonal matrix into a dense matrix, because there is no loss of information.
-# 
-# ```{r}
-# ddense = as(d, "dgeMatrix")
-# ```
-# 
-# How large should the diagonal matrix be?
-# 
-# ```{r}
-# # Data should be
-# n * bytes_per_double
-# 
-# # But there's some overhead
-# object.size(d)
-# ```
-# 
-# Are diagonal matrices closed under matrix multiplication?
-# Yes.
-# 
-# ```{r}
-# d2 = d %*% d
-# class(d2)
-# ```
-# 
-# Do you think diagonal matrices are faster than dense matrices?
-# 
-# ```{r}
-# library(microbenchmark)
-# 
-# microbenchmark(x %*% x, times = 10L)
-# 
-# microbenchmark(d %*% d, times = 10L)
-# ```
+### Clustering
+#
+#Clustering reference from [Berkeley STA133 class](https://www.stat.berkeley.edu/~s133/Cluster2a.html)
+#
+#Technique: to understand machine learning and software 
+#
+#1. Generate data that satisfies the assumptions
+#2. Check the results against what you know to be true
+#
+#```{r}
+#n = 100
+#
+## Makes this reproducible.
+#set.seed(489)
+#true_cluster = sample(1:3, size = n, replace = TRUE)
+#
+#x = rep(0, n)
+#y = rep(0, n)
+#
+#x[true_cluster == 2] = 0.5
+#y[true_cluster == 3] = 1
+#
+## Right now the points all overlap, so add some noise
+#x = x + rnorm(n, sd = 0.1)
+#y = y + rnorm(n, sd = 0.1)
+#
+#plot(x, y)
+#
+## Better
+#plot(x, y, pch = true_cluster)
+#```
+#
+#Let's play with the clustering models.
+#
+#```{r}
+#m = matrix(c(0, 1, 0, 0, 0, 1), nrow = 3)
+#m
+#```
+#
+#The Euclidean (L2) distances between these points should be 1, 1, and sqrt(1 + 1).
+#
+#```{r}
+#dist(m)
+#```
+#
+#The Manhattan (L1) distances between these points should be 1, 1, and 1 + 1.
+#
+#```{r}
+#dist(m, method = "manhattan")
+#```
+#
+#
+### Reasoning about the computation:
+#
+#Computing a distance matrix can be expensive.
+#
+#```{r}
+#n = 1e6 # number of data points
+#p = 5   # dimensionality
+#5 * choose(n, 2)
+#```
+#
+#The nice thing is you do it once, and can keep reusing it with multiple algorithms.
+#
+#Question: How many possible cluster assignments are there for PAM with k clusters?
+#Answer: n choose k, one for each set of k medoids
+#
+#```{r}
+#k = 10
+#5 * choose(n, k)
+#```
+#
+#Pam deals with this by being a _greedy_ algorithm- it doesn't explore all possible options to find the very best.
+#It just improves an objective function every time.
+#
+#Contrast this with kmeans, which is O(n), much faster.
+#
+#
+### Playing around:
+#
+#```{r}
+#library(cluster)
+#
+## Modeling functions tend to play better with data frames.
+#xy = data.frame(x, y)
+#
+#p1 = pam(xy, k = 3L)
+#```
+#
+#Reading the documentation we see that the software saves the cluster assignments into `clustering`.
+#
+#```{r}
+#mean(p1$clustering == true_cluster)
+#```
+#
+#Question: What's going on?
+#Clusters only matter up to labeling.
+#
+#```{r}
+#points(p1$medoids, bg = "blue", pch = 21)
+#```
+#
+### Agglomerative hierarchical clustering
+#
+#```{r}
+#a1 = agnes(xy, method = "complete")
+#
+#plot(a1, which.plots = 2L)
+#```
+#
+#This is as good as it gets.
+#
+#
+### Explain Homework Data
+#
+#Homework is due in a week.
+#Get started, ask questions.
+#
+### Review
+#
+#Appropriate data structures can give order of magnitude improvements:
+#
+#- Faster speed
+#- Lower memory usage
+#
+#R's `Matrix` package contains classes and methods for matrices implemented using R's S4 class system.
+#
+#Homework help: Compressed sparse row
+#
+#
+#```{r}
+#
+#mc = sparseMatrix(i = c(7, 8), j = c(3, 3), x = c(10, 20))
+#
+#m = as(mc, "dgeMatrix")
+#
+## Fails because it hasn't been implemented. 
+#mr = as(mc, "dgRMatrix")
+#
+## Sometimes you can go around by coercing to an intermediate object.
+#mr = as(as(m, "matrix"), "dgRMatrix")
+#
+## I'm working with the row oriented version.
+## In the homework you will work with the column oriented dgCMatrix, which has much better support in the Matrix package.
+#
+## They print the same, but they are different inside.
+#str(mr)
+#```
+#
+#These are 0 based indices, vs 1 based as in R.
+#
+#
+### Memory copying
+#
+#Question: How do we know when object sizes are too big and are causing a problem?
+#
+#Profile!
+#
+#We can find out when R copies objects using `tracemem`
+#
+#```{r}
+#n = 1e6
+#x = 1:n
+#
+#tracemem(x)
+#
+## No copy
+#y = x + 1
+#
+## No copy
+#z = x
+#```
+#
+#What happens when I change a single element?
+#
+#```{r}
+## Makes a copy
+#z[1] = 0L
+#
+## No copy!
+#z[2] = 1L
+#```
+#
+### What is a number?
+#
+#`.Machine` holds all the low level details.
+#
+#Double precision numbers are implemented as two parts: the significand, and the exponent.
+#
+#```{r}
+#.Machine$double.digits
+#
+#.Machine$double.exponent
+#```
+#
+#Checking for exact quality is a common problem.
+#
+#```{r}
+#0.1 + 0.2 == 0.3
+#```
+#
+#The right way is to check if two numbers are close is to see if they differ by more than epsilon, for some small epsilon.
+#
+#Source: [THE FLOATING-POINT GUIDE](https://floating-point-gui.de/)
 
 
 
 
+n = 100
 
+# Makes this reproducible.
+set.seed(489)
+true_cluster = sample(1:3, size = n, replace = TRUE)
 
+x = rep(0, n)
+y = rep(0, n)
 
+x[true_cluster == 2] = 0.5
+y[true_cluster == 3] = 1
 
-# Object sizes in memory
+# Right now the points all overlap, so add some noise
+x = x + rnorm(n, sd = 0.1)
+y = y + rnorm(n, sd = 0.1)
 
-n = 1000
-p = 500
-x = matrix(rnorm(n * p), nrow = n)
-
-typeof(x)
-
-# Calculate algebraically the size
-
-bytes_per_double = 8
-
-# Size:
-expected = n * p * bytes_per_double
-
-actual = object.size(x)
-
-actual - expected
-
-# Why are the sizes different?
-# Various forms of overhead
-
-# Put it in a list:
-xl = lapply(x, identity)
-
-as.numeric(object.size(xl) / object.size(x) )
-
-# Which one is faster?
-
-library(microbenchmark)
-
-microbenchmark(sum(x))
-
-microbenchmark(do.call(sum, xl))
-
-# List is 2 orders of magnitude slower
-# 1 order of magnitude larger than the matrix.
-
-# 2 ways:
-#- Millions of data elements inside one single object :)
-#- Millions of objects :(
-
-# Matrix
-
-# Kinds of special matrices:
-# Classes or all these kinds:
-# - banded
-# - diagonal
-# - identity
-# - orthogonal / orthonormal
-# - invertible
-# - symmetric
-# - zero matrix
-# - sparse (really empty, not dense)
-
-# banded matrix generalizes a diagonal matrix
-# diagonal generalizes identity
-
-# Operations that we call on matrices:
-# *Methods*
-# - %*%, +, - 
-# - transpose
-# - invert
-# - FFT transform
-# - decompositions, LU, SVD
-
-# R has several object oriented systems
-
-# S3 is very common
-methods(plot)
-
-# S4 adds rigor, more predictability, multiple dispatch
-
-library(methods)
-
-library(Matrix)
-
-m = Matrix(1:9, nrow = 3)
-
-class?dgeMatrix
-
-str(m)
-
-# Called a 'slot' in S4 terms
-m@x
-
-m@Dim
-
-# Three ways to make a new object of some class:
-
-# Constructor
-m = Matrix(1:9, nrow = 3)
-
-# Coercion as() 
-as(m, "matrix")
-
-as(m, "numeric")
-
-# Explicitly calling new()
-
-new("dgeMatrix", x = as.numeric(1:9), Dim = c(3L, 3L))
-
-new("dgeMatrix", x = 1:9, Dim = c(3L, 3L))
-
-# Question:
-# Will a diagonal matrix be smaller than a dense general matrix?
-
-n = 1000
-x = Matrix(rnorm(n * n), nrow = n)
-
-# How large should x be?
-n * n * bytes_per_double
-
-object.size(x)
-
-# The class is ddiMatrix
-d = as(x, "ddiMatrix")
-
-diag(x)
-
-d = Diagonal(x = diag(x))
-
-dim(d)
-
-# How big should this diagonal matrix be?
-# (In theory)
-n * bytes_per_double
-
-object.size(d)
-
-ddense = as(d, "dgeMatrix")
-
-object.size(ddense)
-
-# Are diagonal matrices closed under multiplication?
-d2 = d %*% d
-
-class(d2)
-
-# Are diagonal matrices faster than dense matrices?
-
-microbenchmark(ddense %*% ddense, times = 10L)
-
-microbenchmark(d %*% d, times = 10L)
-# 4 orders of magnitude faster
+plot(x, y, pch = true_cluster)
 
