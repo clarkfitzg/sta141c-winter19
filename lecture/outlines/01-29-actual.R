@@ -206,6 +206,14 @@
 
 
 
+
+
+
+# Technique to understand machine learning model
+
+# 1. Generate data that satisfies the assumptions
+# 2. Try out the technique
+
 n = 100
 
 # Makes this reproducible.
@@ -224,3 +232,70 @@ y = y + rnorm(n, sd = 0.1)
 
 plot(x, y, pch = true_cluster)
 
+
+
+
+# Distance matrix
+
+m = matrix(c(0, 1, 0, 0, 0, 1), nrow = 3)
+
+d = dist(m, method = "manhattan")
+
+# What's really going on in the distance object that's returned?
+
+str(d)
+
+# It's actually just a special numeric vector of length 3.
+
+# Distance calculations can be expensive
+
+n = 1e6     # number of data points
+p = 5       # dimension of the space
+
+# How many calculations do we need to fill in a distance matrix?
+
+p*choose(n, 2)
+
+# Nice that it's easily parallelizable
+
+# PAM- partitioning around medoids
+
+# How many solutions are possible for PAM?
+k = 10
+
+choose(n, k)
+
+# Too expensive, so PAM is greedy,
+# just tries to improve at every iteration.
+
+# keep reusing the same distance matrix.
+
+library(cluster)
+
+xy = data.frame(x, y)
+
+p1 = pam(xy, k = 3L)
+
+# Are they the same?
+mean(true_cluster == p1$clustering)
+
+points(x, y, pch = p1$clustering)
+
+# Clusters only matter up to labeling.
+
+a1 = agnes(xy, method = "complete")
+
+
+a2 = agnes(xy)
+
+# Helpful for homework:
+
+str(a2)
+
+head(a2$merge)
+
+# This says:
+# 78 and 90 were the first points joined
+# The first three points joined were:
+# 47, 77, 87
+# Because the first positive number is 4, paired with 87, and the two joined at step 4 were 47, 77

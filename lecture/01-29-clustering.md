@@ -259,7 +259,15 @@ Ideas:
 
 
 ```{r}
+a2 = agnes(xy, method = "complete")
 
+head(a2$merge)
+
+# This says:
+# 78 and 90 were the first points joined
+# The first three points joined were:
+# 47, 77, 87
+# Because the first positive number is 4, paired with 87, and the two joined at step 4 were 47, 77
 ```
 
 
