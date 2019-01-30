@@ -44,36 +44,6 @@ This is sometimes useful.
 A better way is to profile the code- run the code and check which lines / operations actually cause problems.
 Once we identify where the problems are, we try to fix those.
 
-## Memory copying
-
-It's fine to have large objects in memory.
-The trouble comes when we inadvertently copy large things.
-
-We can find out when R copies objects using `tracemem`
-
-```{r}
-n = 1e6
-x = 1:n
-
-tracemem(x)
-
-# No copy
-y = x + 1
-
-# No copy
-z = x
-```
-
-What happens when I change a single element?
-
-```{r}
-# Makes a copy
-z[1] = 0L
-
-# No copy!
-z[2] = 1L
-```
-
 ## What is a number?
 
 `.Machine` holds all the low level details.
@@ -275,27 +245,3 @@ head(a2$merge)
 
 Homework is due in a week.
 Get started, ask questions.
-
-Compressed sparse row
-
-These are a little hard to read because they're 0 based indices, vs 1 based as in R.
-
-```{r}
-
-mc = sparseMatrix(i = c(7, 8), j = c(3, 3), x = c(10, 20))
-
-m = as(mc, "dgeMatrix")
-
-# Fails because it hasn't been implemented. 
-mr = as(mc, "dgRMatrix")
-
-# Sometimes you can go around by coercing to an intermediate object.
-mr = as(as(m, "matrix"), "dgRMatrix")
-
-# I'm working with the row oriented version.
-# In the homework you will work with the column oriented dgCMatrix, which has much better support in the Matrix package.
-
-# They print the same, but they are different inside.
-str(mr)
-
-```
