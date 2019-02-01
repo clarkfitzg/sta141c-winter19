@@ -294,8 +294,17 @@ str(a2)
 
 head(a2$merge)
 
+#      [,1] [,2]
+# [1,]  -78  -90
+# [2,]   -3  -80
+# [3,]  -28  -99
+# [4,]  -47  -77
+# [5,]   -2  -93
+# [6,]    4  -87
+
 # This says:
-# 78 and 90 were the first points joined
+# 78 and 90 were the first points joined.
+# 3 and 80 were the second two points joined.
 # The first three points joined were:
 # 47, 77, 87
 # Because the first positive number is 4, paired with 87, and the two joined at step 4 were 47, 77
