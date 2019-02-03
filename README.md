@@ -22,6 +22,9 @@ Date    |   Topic
 1-17    | parallelism with independent local processors
 1-22    | vectorization, apply family of functions
 1-24    | size and efficiency of objects, intro to S4 / Matrix
+1-29    | unsupervised learning / cluster analysis, agglomerative nested clustering
+1-31    | introduction to bash, file navigation, help, permissions, executables
+2-5     | SLURM cluster model, example job submissions
 
 Catalog Description:
 
