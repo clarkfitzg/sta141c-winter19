@@ -1,11 +1,14 @@
 Cluster Resources:
 
+- [SLURM documentation](https://slurm.schedmd.com/)
 - [Gauss wiki](https://wiki.cse.ucdavis.edu/support/systems/gauss)
 - [Introduction to Gauss slides](https://wiki.cse.ucdavis.edu/_media/support/systems/intro_to_gauss_slides.pdf) Paul Baines
 - email help@cse.ucdavis.edu
 
 Draw picture of architecture.
 Mention the 10 or so clusters on campus.
+
+I'm going to try to convey the concept, because this will make it much easier if you're reading the documentation later.
 
 Vocabulary:
 
@@ -17,10 +20,12 @@ Vocabulary:
 
 Points:
 
-1. head node manages a queue of jobs
+1. head node manages a queue of jobs and contention for resources
 2. this class has a reserved partition
 3. interactive versus batch jobs
 4. run your jobs on the worker nodes
+5. job can either be in the queue, running, or finished
+6. network file system is an abstraction that makes all the files seem like they're on the same computer
 
 
 I open up a terminal and login to the cluster Gauss with `s141c-76` as follows:
@@ -58,3 +63,52 @@ gauss.cse.ucdavis.edu
 ```
 
 This says, I am the user `s141c-76` on the machine `gauss.cse.ucdavis.edu`.
+
+
+## partitions
+
+The partition `staclass` consists of two nodes, `c0-10` and `c0-19`.
+We own these nodes for the duration of the quarter, so nobody else can use them.
+
+The `sta141c-XX` student accounts have access to the __entire__ cluster resources.
+It's possible for you to request a job that uses the entire cluster for 3 months.
+Do not do this.
+Use the `staclass` partition.
+
+We have two nodes, each with 32 processors, so we should all be able to run jobs simultaneously if we use one core.
+
+## interactive mode
+
+Interactive mode is useful for developing and experimenting.
+It is not useful for running a large job that takes hours, because when you close your laptop your interactive job will be killed.
+
+Lets get on a worker node.
+
+```{bash}
+srun --partition staclass --pty bash -i
+```
+
+- `srun` is the SLURM command
+- `--partition staclass` specifies that we are running a job on the partition assigned to this class
+- `--pty` is a flag for 'pseudo terminal mode'
+- `bash` is the main argument, an executable to run
+- `-i`, and anything else following the main argument `bash`, are arguments to the `bash` executable. `-i` means interactive mode.
+
+Now I have an interactive terminal on a worker node, and I can enter whatever commands I like.
+
+```{bash}
+s141c-76@c0-10:~$ hostname
+c0-10
+```
+
+With the defaults on this system I get 1 core and unlimited memory on this machine.
+
+## queue
+
+Let's look at the queue and see who is running what:
+
+```{bash}
+squeue
+```
+
+
