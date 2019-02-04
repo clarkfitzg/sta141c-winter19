@@ -7,6 +7,7 @@ Cluster Resources:
 
 Draw picture of architecture.
 Mention the 10 or so clusters on campus.
+This applies to all of them, notably peloton which statistics now has access to.
 
 I'm going to try to convey the concept, because this will make it much easier if you're reading the documentation later.
 
@@ -77,6 +78,24 @@ Use the `staclass` partition.
 
 We have two nodes, each with 32 processors, so we should all be able to run jobs simultaneously if we use one core.
 
+
+## moving your code and data
+
+We're logged into the cluster, and now we need to put our code on the cluster so that we can run it.
+I have some example code in a git repository that I will pull from Github.
+
+```{bash}
+git clone https://github.com/clarkfitzg/slurm-example.git
+```
+
+Typically you'll write some file `fancy_analysis.R` on your laptop, and get it working so that you can call `Rscript fancy_analysis.R` locally.
+
+Let's see what open source software is available and ready to use.
+
+```{bash}
+module avail
+```
+
 ## interactive mode
 
 Interactive mode is useful for developing and experimenting.
@@ -108,7 +127,14 @@ With the defaults on this system I get 1 core and unlimited memory on this machi
 Let's look at the queue and see who is running what:
 
 ```{bash}
-squeue
+$ squeue
 ```
 
+It shows the job that I'm currently running:
 
+```
+     JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+   2065075  staclass     bash s141c-76  R       6:15      1 c0-10
+```
+
+L
