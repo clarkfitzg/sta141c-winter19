@@ -77,24 +77,8 @@ Do not do this.
 Use the `staclass` partition.
 
 We have two nodes, each with 32 processors, so we should all be able to run jobs simultaneously if we use one core.
+I will give you specific guidance for each assignment.
 
-
-## moving your code and data
-
-We're logged into the cluster, and now we need to put our code on the cluster so that we can run it.
-I have some example code in a git repository that I will pull from Github.
-
-```{bash}
-git clone https://github.com/clarkfitzg/slurm-example.git
-```
-
-Typically you'll write some file `fancy_analysis.R` on your laptop, and get it working so that you can call `Rscript fancy_analysis.R` locally.
-
-Let's see what open source software is available and ready to use.
-
-```{bash}
-module avail
-```
 
 ## interactive mode
 
@@ -120,9 +104,103 @@ s141c-76@c0-10:~$ hostname
 c0-10
 ```
 
+`exit` brings me back to the head node.
+
 With the defaults on this system I get 1 core and unlimited memory on this machine.
 
-## queue
+
+### moving your code and data
+
+We're logged into the cluster, and now we need to put our code on the cluster so that we can run it.
+I have some example code in a git repository that I will pull from Github.
+
+```{bash}
+git clone https://github.com/clarkfitzg/slurm-example.git
+```
+
+Typically you'll write some file `fancy_analysis.R` on your laptop, and get it working so that you can call `Rscript fancy_analysis.R` locally.
+
+You'll probably use some specific analysis software.
+It may be tricky to configure everything in exactly the way you want it, so that it runs the same way next time you try it.
+That's what the `module` command on the cluster is for.
+
+Let's see what open source software is available and ready to use.
+
+```{bash}
+module avail
+```
+
+We've got installs for julia 1.0.2, numpy 1.7.0, R 3.3.2.
+If you would like any free software installed then email help@cse.ucdavis.edu, they can add more.
+
+
+## running batch jobs
+
+I have a script called `analysis.R` that I would like to run:
+
+```{bash}
+$ cd slurm-example/R
+$ cat analysis.R
+```
+
+Here we see a script, and it even has a secret message in it.
+
+```
+# Your R script
+x = 1:10
+
+message("Adding messages like this is an easy way to add logging to your program.
+This will help you debug things that run in batch mode.
+Look for it in a file that ends with .out.")
+```
+
+Besides my actual data analysis script I need a submission script to make it work.
+
+```{bash}
+s141c-76@gauss:~/slurm-example/R$ cat submit.sh
+#!/bin/bash -l
+
+# All of these SBATCH options below are optional.
+
+# Use the staclass partition. Only applies if you are in STA141C
+#SBATCH --partition=staclass
+
+# Email me a result
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=somepersonsemailaddress@ucdavis.edu
+
+# Specify which version of the software you want to use, and make it available
+module load R/3.3.2
+
+Rscript analysis.R
+```
+
+I can put it into the queue and have it run as follows:
+
+```{bash}
+sbatch ./submit.sh
+```
+
+It tells me that I submitted the job and brings me back to the head node.
+
+
+## checking status
+
+Suppose I do something dumb.
+```{bash}
+echo "
+n = 0
+while(n != Inf) n = n + 1
+print(n)
+" >> analysis.R
+
+cat analysis.R
+```
+
+Question: Will `analysis.R` ever finish?
+No, check in R: `1e100 == 1e100 + 1`.
+
+TODO: cancel, add name to job, Array jobs
 
 Let's look at the queue and see who is running what:
 
@@ -137,4 +215,10 @@ It shows the job that I'm currently running:
    2065075  staclass     bash s141c-76  R       6:15      1 c0-10
 ```
 
-L
+Suppose I do something crazy, and I want to stop it.
+
+```
+scancel 2065075
+```
+
+
