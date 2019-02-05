@@ -3,13 +3,17 @@ Cluster Resources:
 - [SLURM documentation](https://slurm.schedmd.com/)
 - [Gauss wiki](https://wiki.cse.ucdavis.edu/support/systems/gauss)
 - [Introduction to Gauss slides](https://wiki.cse.ucdavis.edu/_media/support/systems/intro_to_gauss_slides.pdf) Paul Baines
-- email help@cse.ucdavis.edu
+- [Cluster monitoring](http://stats.cse.ucdavis.edu/ganglia/)
+- email help@cse.ucdavis.edu to install software and get access if you're not in this class.
+
 
 Draw picture of architecture.
 Mention the 10 or so clusters on campus.
-This applies to all of them, notably peloton which statistics now has access to.
+This lesson applies to all of them, notably peloton which the statistics department now has more nodes on.
 
-I'm going to try to convey the concept, because this will make it much easier if you're reading the documentation later.
+The goal today is to convey the concepts, because this will make it much easier if you're reading the documentation later.
+I'm going to show you one conventional way to do things.
+There are many variations, for example, there are at least 4 ways to run an R script from the command line.
 
 Vocabulary:
 
@@ -25,7 +29,7 @@ Points:
 2. this class has a reserved partition
 3. interactive versus batch jobs
 4. run your jobs on the worker nodes
-5. job can either be in the queue, running, or finished
+5. job can either be waiting in the queue to start, running, or finished
 6. network file system is an abstraction that makes all the files seem like they're on the same computer
 
 
@@ -64,7 +68,7 @@ gauss.cse.ucdavis.edu
 ```
 
 This says, I am the user `s141c-76` on the machine `gauss.cse.ucdavis.edu`.
-
+To logout, I just type `exit`.
 
 ## partitions
 
@@ -200,8 +204,11 @@ cat analysis.R
 Question: Will `analysis.R` ever finish?
 No, check in R: `1e100 == 1e100 + 1`.
 
-TODO: cancel, add name to job, Array jobs
+Oh well, I'm just going to try it anyways.
 
+```{bash}
+sbatch ./submit.sh
+```
 Let's look at the queue and see who is running what:
 
 ```{bash}
@@ -212,13 +219,76 @@ It shows the job that I'm currently running:
 
 ```
      JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-   2065075  staclass     bash s141c-76  R       6:15      1 c0-10
+   2065112  staclass    Rtest s141c-76  R       6:15      1 c0-10
 ```
 
-Suppose I do something crazy, and I want to stop it.
+Another way is to check the job through the online monitoring: http://stats.cse.ucdavis.edu/ganglia/
+
+We can also examine the output file as it runs:
+
+```{bash}
+$ cat slurm-2065112.out
+```
+
+At some point I realize that I did something unwise, and I decide to kill my job with `scancel 2065112`.
+If this is the only job that I'm runnning then I can cancel all jobs for my user.
 
 ```
-scancel 2065075
+$ scancel --user=s141c-76
+```
+
+Examining the queue again we see that my job is gone.
+
+
+## array jobs
+
+One way to submit a bunch of jobs is to just use a bunch of `sbatch` commands.
+If we do this, then it's good etiquette to pause for ~1 second between submissions so that we don't overwhelm the scheduler.
+[source](https://www.rc.fas.harvard.edu/resources/documentation/submitting-large-numbers-of-jobs-to-odyssey/)
+
+If we're doing a bunch of simulations, then a better way is to use an array job.
+
+We specify that it's an array job by adding this to our submission script:
+
+```{bash}
+SBATCH --array=1-10
+```
+
+This says that 10 jobs will be run.
+Inside each individual job, the bash environment variable `SLURM_ARRAY_TASK_ID` will vary between 1 and 10.
+
+Our submission script also contains the line:
+
+```{bash}
+srun Rscript analysis.R ${SLURM_ARRAY_TASK_ID}
+```
+
+Our `analysis.R` takes in this variable and can do something different based on the value.
+One typical example is to use it to specify the state of the random number generator so that simulation results are independent.
+This is a nice way to do things, because then we can do local runs to make sure things go as planned:
+
+```{bash}
+$ Rscript analysis.R 3
 ```
 
 
+## transferring data
+
+If I need to move small results or data back and forth between my local machine and the cluster then I can use git.
+The last I checket, Github.com supports up to 250 MB, but you want to stay way under this, less than 1 MB is fine.
+
+Demo?
+
+If I need to move large data sets, say greater than 1 MB, I can use `sftp` or `scp` from my _local machine_.
+
+```{bash}
+clark@local $ sftp s141c-76@gauss.cse.ucdavis.edu
+```
+
+Commands:
+- `ls` shows the files available in the current remote directory
+- `cd` navigates to a different remote directory
+- `get` downloads a file from the remote to the local
+- `lls` shows the files available in the current remote directory
+- `put` uploads a file from the local to the remote
+- `exit` quits the sftp program
