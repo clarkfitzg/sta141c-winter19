@@ -10,6 +10,7 @@ Cluster Resources:
 Draw picture of architecture.
 Mention the 10 or so clusters on campus.
 This lesson applies to all of them, notably peloton which the statistics department now has more nodes on.
+It also applies to other supercomputers, and other types of clusters more generally.
 
 The goal today is to convey the concepts, because this will make it much easier if you're reading the documentation later.
 I'm going to show you one conventional way to do things.
@@ -83,34 +84,6 @@ Use the `staclass` partition.
 We have two nodes, each with 32 processors, so we should all be able to run jobs simultaneously if we use one core.
 I will give you specific guidance for each assignment.
 
-
-## interactive mode
-
-Interactive mode is useful for developing and experimenting.
-It is not useful for running a large job that takes hours, because when you close your laptop your interactive job will be killed.
-
-Lets get on a worker node.
-
-```{bash}
-srun --partition staclass --pty bash -i
-```
-
-- `srun` is the SLURM command
-- `--partition staclass` specifies that we are running a job on the partition assigned to this class
-- `--pty` is a flag for 'pseudo terminal mode'
-- `bash` is the main argument, an executable to run
-- `-i`, and anything else following the main argument `bash`, are arguments to the `bash` executable. `-i` means interactive mode.
-
-Now I have an interactive terminal on a worker node, and I can enter whatever commands I like.
-
-```{bash}
-s141c-76@c0-10:~$ hostname
-c0-10
-```
-
-`exit` brings me back to the head node.
-
-With the defaults on this system I get 1 core and unlimited memory on this machine.
 
 
 ### moving your code and data
@@ -292,3 +265,34 @@ Commands:
 - `lls` shows the files available in the current remote directory
 - `put` uploads a file from the local to the remote
 - `exit` quits the sftp program
+
+
+## interactive mode
+
+Interactive mode is useful for developing and experimenting.
+It is not useful for running a large job that takes hours, because when you close your laptop your interactive job will be killed.
+
+Lets get on a worker node.
+
+```{bash}
+srun --partition staclass --pty bash -i
+```
+
+- `srun` is the SLURM command
+- `--partition staclass` specifies that we are running a job on the partition assigned to this class
+- `--pty` is a flag for 'pseudo terminal mode'
+- `bash` is the main argument, an executable to run
+- `-i`, and anything else following the main argument `bash`, are arguments to the `bash` executable. `-i` means interactive mode.
+
+Now I have an interactive terminal on a worker node, and I can enter whatever commands I like.
+
+```{bash}
+s141c-76@c0-10:~$ hostname
+c0-10
+```
+
+`exit` brings me back to the head node.
+
+With the defaults on this system I get 1 core and unlimited memory on this machine.
+
+
