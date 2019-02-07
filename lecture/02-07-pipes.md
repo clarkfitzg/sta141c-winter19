@@ -11,5 +11,5 @@ $ ssh s141c-76@gauss.cse.ucdavis.edu
 To open an interactive shell on a worker node:
 
 ```{bash}
-$ srun --pty bash -i
+$ srun --pty -p staclass bash -i
 ```
