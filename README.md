@@ -25,6 +25,7 @@ Date    |   Topic
 1-29    | unsupervised learning / cluster analysis, agglomerative nested clustering
 1-31    | introduction to bash, file navigation, help, permissions, executables
 2-5     | SLURM cluster model, example job submissions
+2-7     | mid quarter evaluation, bash pipes and filters, students practice SLURM, [SWC lesson](https://swcarpentry.github.io/shell-novice/04-pipefilter/index.html)
 
 Catalog Description:
 
