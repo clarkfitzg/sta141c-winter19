@@ -120,7 +120,9 @@ Participation | 5
 - Homework must be turned in by the due date.
   No late homework accepted.
 - The lowest assignment score will be dropped.
-- The safest way to get full points for participation is to use Piazza on a weekly basis.
+- ~~The safest way to get full points for participation is to use Piazza on a weekly basis.~~
+    EDIT (clarification) The safest way to get full points for participation is to have some interaction on Piazza on a weekly basis.
+    Other ways are to interact in class, discussion, or office hours.
 
 
 ### Asking Questions
