@@ -14,18 +14,20 @@ Office Hours:
 
 Lecture content is in the [lecture directory](https://github.com/clarkfitzg/sta141c-winter19/tree/master/lecture).
 
-Date    |   Topic
---------| ----------------
-1-8     | introduction, syllabus, first steps in R
-1-10    | group by computation, zip files
-1-15    | debugging
-1-17    | parallelism with independent local processors
-1-22    | vectorization, apply family of functions
-1-24    | size and efficiency of objects, intro to S4 / Matrix
-1-29    | unsupervised learning / cluster analysis, agglomerative nested clustering
-1-31    | introduction to bash, file navigation, help, permissions, executables
-2-5     | SLURM cluster model, example job submissions
-2-7     | mid quarter evaluation, bash pipes and filters, students practice SLURM, [SWC lesson](https://swcarpentry.github.io/shell-novice/04-pipefilter/index.html) [example hw](https://github.com/clarkfitzg/sta141c-hw4)
+Date    |   Topic           | Video
+--------| ----------------  | ----
+1-8     | introduction, syllabus, first steps in R  |
+1-10    | group by computation, zip files   |
+1-15    | debugging |
+1-17    | parallelism with independent local processors |
+1-22    | vectorization, apply family of functions  |
+1-24    | size and efficiency of objects, intro to S4 / Matrix  |
+1-29    | unsupervised learning / cluster analysis, agglomerative nested clustering  |
+1-31    | introduction to bash, file navigation, help, permissions, executables |
+2-5     | SLURM cluster model, example job submissions  |
+2-7     | mid quarter evaluation, bash pipes and filters, students practice SLURM, [SWC lesson](https://swcarpentry.github.io/shell-novice/04-pipefilter/index.html) [example hw](https://github.com/clarkfitzg/sta141c-hw4)    |
+2-12    | review course suggestions, bash coding style guidelines    | https://youtu.be/vqA18iYk7BM
+2-14    | shared memory parallelism     |
 
 Catalog Description:
 
