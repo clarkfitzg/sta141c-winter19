@@ -28,6 +28,7 @@ Date    |   Topic           | Video
 2-7     | mid quarter evaluation, bash pipes and filters, students practice SLURM, [SWC lesson](https://swcarpentry.github.io/shell-novice/04-pipefilter/index.html) [example hw](https://github.com/clarkfitzg/sta141c-hw4)    |
 2-12    | review course suggestions, bash coding style guidelines    | https://youtu.be/vqA18iYk7BM
 2-14    | shared memory parallelism     | https://youtu.be/l34IBkk8xcc
+2-19    | Python Introduction     | https://youtu.be/t7UZR_hVMpY
 
 Catalog Description:
 
