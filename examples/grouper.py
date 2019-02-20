@@ -11,6 +11,8 @@ import sys
 import csv
 import itertools
 
+
+
 #statistic = max
 
 def numeric_range(x):
@@ -56,9 +58,36 @@ numeric_range(values)
 
 list(itertools.islice(g1[1], 5))
 
-result = {}
-for g in grouped:
-    values = (
+
+
+fname = "sorted_data.csv"
+with open(fname) as f:
+    reader = csv.reader(f)
+    grouped = itertools.groupby(reader, key = lambda x: x[0])
+    result = {}
+    for g in grouped:
+        key = g[0]
+        values = (float(x[1]) for x in g[1])
+        result[key] = numeric_range(values)
+
+
+# Alternatively - yuck.
+#fname = "sorted_data.csv"
+#with open(fname) as f:
+#    reader = csv.reader(f)
+#    row = next(reader)
+#    key = row[0]
+#    cur_max = cur_min = row[1]
+#    result = {key: {"max": cur_max, "min": cur_min}}
+#    for g in grouped:
+#        key = g[0]
+#        values = (float(x[1]) for x in g[1])
+#        result[key] = numeric_range(values)
+
+
+
+#list(g1[1])
+
 
 
 if __name__ == "__main__":
