@@ -6,6 +6,10 @@ AGENCY=18
 
 # Find the set of unique funding agencies.
 
+# real    8m48.701s
+# user    8m18.437s
+# sys     0m46.286s
+
 # This version sorts 100 million numbers :(
 time cut --delimiter=, --fields=${AGENCY} ${DATAFILE} |
     sort |
@@ -30,4 +34,7 @@ time cat ${DATAFILE} |
 # sys     0m42.025s
 time cut --delimiter=, --fields=${AGENCY} ${DATAFILE} |
     python3 unique.py > funding_agency_set.txt
+
+
+time python3 unique2.py ${DATAFILE} ${AGENCY} > funding_agency_set.txt
 
