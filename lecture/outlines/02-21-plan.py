@@ -142,11 +142,23 @@ line = next(reader)
 s = "314159"
 s[0]
 
-# So we could do something like 
+# So we could do something like:
 
 with open(datafile) as f:
     reader = csv.reader(f)
     for row in reader:
+        row[-1] = row[-1][0] 
+        print(row)
+
+# Instead of just printing, let's write to a file:
+
+with open(datafile) as f:
+    with open("output.csv", "w") as outfile:
+        reader = csv.reader(f)
+        writer = csv.writer(outfile)
+        for row in reader:
+            row[-1] = row[-1][0] 
+            writer.writerow(row)
 
 
 
