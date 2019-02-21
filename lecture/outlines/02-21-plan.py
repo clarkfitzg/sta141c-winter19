@@ -178,4 +178,4 @@ with open(datafile) as f:
     for g in grouped:
         key = g[0]
         values = (float(x[1]) for x in g[1])
-        result[key] = numeric_range(values)
+        result[key] = max(values)
