@@ -3,9 +3,15 @@
 Print out the unique elements from stdin.
 """
 
-from sys import stdin
+import sys
 
-elements = {x for x in stdin}
+#from sys import stdin, stdout
 
-for e in elements:
-    print(e)
+# elements = {x for x in stdin}
+
+elements = set(sys.stdin)
+
+sys.stdout.writelines(elements)
+
+#for e in elements:
+#    stdout.write(e)

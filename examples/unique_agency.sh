@@ -13,7 +13,7 @@ unzip -p ${DATAFILE} |
 
 
 # This version collects the set in one pass :)
-unzip -p ${DATAFILE} |
+time unzip -p ${DATAFILE} |
     tail -n +2 |                            # Drops first line
     cut --delimiter=, --fields=${AGENCY} |  # Select the column of interest
     python3 unique.py |
