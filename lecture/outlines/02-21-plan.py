@@ -82,3 +82,34 @@ s = {2*x for x in range(5)}
 
 # Dictionary comprehension
 d = {x: 2*x for x in range(5)}
+
+
+# Memory
+############################################################
+
+
+import itertools
+
+c = itertools.count()
+
+next(c)
+
+# Question: What does c represent?
+# An infinite stream of data, the integers 0, 1, 2, .... 
+
+# You might try to do something crazy...
+max(c)
+
+# See activitiy monitor
+# This will never complete.
+
+
+# Data processing
+############################################################
+
+# Let's process data line by line.
+# This is how we did it in bash.
+
+datafile = "/Users/clark/projects/sta141c-winter19/data/sorted_data.csv"
+
+import csv

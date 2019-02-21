@@ -37,15 +37,15 @@ time cut --delimiter=, --fields=${AGENCY} ${DATAFILE} |
     python3 unique.py > funding_agency_set.txt
 
 
-# With csv.reader
+# csv.reader
 # real    27m28.049s
 # user    26m27.384s
 # sys     0m45.181s
+time python3 unique_csv_dict.py ${DATAFILE} ${AGENCY} > funding_agency_set.txt
 
-# With csv.DictReader
+
+# csv.DictReader
 # real    54m0.713s
 # user    52m4.073s
 # sys     0m47.538s
-
-time python3 unique2.py ${DATAFILE} ${AGENCY} > funding_agency_set.txt
-
+time python3 unique_csv_dict.py ${DATAFILE} funding_agency_id > funding_agency_set.txt
