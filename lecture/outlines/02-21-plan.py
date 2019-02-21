@@ -104,12 +104,78 @@ max(c)
 # This will never complete.
 
 
-# Data processing
+# Files
 ############################################################
 
-# Let's process data line by line.
-# This is how we did it in bash.
-
+# Look at the datafile
 datafile = "/Users/clark/projects/sta141c-winter19/data/sorted_data.csv"
 
+# In the last homework we learned how to create this kind of intermediate data file.
+# cut | sort
+
+# We could read it all into memory at once.
+with open(datafile) as f:
+    everything = f.readlines()
+
+# What's the problem?
+# We potentially use a huge amount of memory.
+
+# Instead, let's process data line by line.
+# This is how we did it in bash.
+
 import csv
+
+f = open(datafile)
+reader = csv.reader(f)
+
+# This shows how csv reader returns a list for representing each row.
+line = next(reader)
+
+# What kind of objects are they?
+[type(x) for x in line]
+
+# Everything is a str, which means string.
+
+# Suppose we want to write a new file that only has the first digit of the second column
+# We can grab the first element of a string like this:
+
+s = "314159"
+s[0]
+
+# So we could do something like 
+
+with open(datafile) as f:
+    reader = csv.reader(f)
+    for row in reader:
+
+
+
+grouped = itertools.groupby(reader, key = lambda x: x[0])
+g1 = next(grouped)
+
+#list(g1[1])
+
+values = (float(x[1]) for x in g1[1])
+
+
+# Iterators can be confusing when you don't know what's in them.
+# list will take an iterator as input and materialize it in a list.
+
+# We could get everything as 
+# list(g1[1])
+
+# Sometimes we don't want everything, so we can just select the first few elements.
+# In R and bash we used head.
+# For an iterator in Python we can use itertools.islice
+
+list(itertools.islice(g1[1], 5))
+
+
+with open(datafile) as f:
+    reader = csv.reader(f)
+    grouped = itertools.groupby(reader, key = lambda x: x[0])
+    result = {}
+    for g in grouped:
+        key = g[0]
+        values = (float(x[1]) for x in g[1])
+        result[key] = numeric_range(values)
