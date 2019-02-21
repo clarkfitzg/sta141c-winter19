@@ -3,13 +3,17 @@
 Print out the unique elements from stdin.
 """
 
-import sys
+from sys import stdin, stdout
 
-#from sys import stdin, stdout
+# This is pretty confusing.
 
-# elements = {x for x in stdin}
+# The set of unique lines
+result = set(stdin)
 
-elements = set(sys.stdin)
+# Remove the newline separator
+result = {x.strip() for x in result}
+
+output = "
 
 sys.stdout.writelines(elements)
 

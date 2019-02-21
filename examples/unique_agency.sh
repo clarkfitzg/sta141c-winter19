@@ -1,7 +1,8 @@
 # To get 3 cpus on node c0-19:
 # $ srun --pty -p staclass -w c0-19 -c 3 bash -i
 
-DATAFILE="/scratch/transaction.csv"
+#DATAFILE="/scratch/transaction.csv"
+DATAFILE="../data/transaction100.csv"
 AGENCY=18
 
 # Find the set of unique funding agencies.
@@ -35,6 +36,16 @@ time cat ${DATAFILE} |
 time cut --delimiter=, --fields=${AGENCY} ${DATAFILE} |
     python3 unique.py > funding_agency_set.txt
 
+
+# With csv.reader
+# real    27m28.049s
+# user    26m27.384s
+# sys     0m45.181s
+
+# With csv.DictReader
+# real    54m0.713s
+# user    52m4.073s
+# sys     0m47.538s
 
 time python3 unique2.py ${DATAFILE} ${AGENCY} > funding_agency_set.txt
 
