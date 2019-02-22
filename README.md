@@ -29,6 +29,7 @@ Date    |   Topic           | Video
 2-12    | review course suggestions, bash coding style guidelines    | https://youtu.be/vqA18iYk7BM
 2-14    | shared memory parallelism     | https://youtu.be/l34IBkk8xcc
 2-19    | Python Introduction     | https://youtu.be/t7UZR_hVMpY
+2-21    | Python Iterators, generators, integration with shell pipeleines   | https://youtu.be/e-RAah4Eey4
 
 Catalog Description:
 
