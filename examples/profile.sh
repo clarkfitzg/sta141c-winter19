@@ -12,3 +12,9 @@ unzip -p ${DATAFILE}  |
 
 # Interesting
 python3 -m cProfile -s tottime first_char_first_col.py ${ONLY_COLUMNS} ${FIRST_DIGIT}
+
+
+unzip -p ${DATAFILE}  |
+    cut -d , -f ${AGENCY},${AMT} |
+    python3 first_char_last_column.py |
+    Rscript first_char_last_column.R #> test.txt
