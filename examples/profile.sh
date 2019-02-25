@@ -16,5 +16,5 @@ python3 -m cProfile -s tottime first_char_first_col.py ${ONLY_COLUMNS} ${FIRST_D
 
 unzip -p ${DATAFILE}  |
     cut -d , -f ${AGENCY},${AMT} |
-    python3 first_char_last_column.py |
+    python3 -m cProfile -o pyprof.out first_char_last_column.py |
     Rscript first_char_last_column.R > test.txt

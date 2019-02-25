@@ -5,6 +5,9 @@
 # 
 # Should print "100,2"
 
+# Example adding profiling:
+Rprof()
+
 input = file("stdin")
 open(input)
 
