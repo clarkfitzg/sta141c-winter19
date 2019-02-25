@@ -3,9 +3,9 @@
 For the last column, print only the first character.
 Usage:
 
-    $ echo "100,200" | python3 first_char_last_column.py
+    $ printf "100,200\n0,\n" | python3 first_char_last_column.py
 
-Should print "100,2"
+Should print "100,2\n0,"
 """
 
 import csv
@@ -17,7 +17,10 @@ def main():
     writer = csv.writer(stdout)
 
     for row in reader:
-        row[-1] = row[-1][0]
+        try:
+            row[-1] = row[-1][0]
+        except IndexError:
+            pass
         writer.writerow(row)
 
 
