@@ -10,12 +10,15 @@ open(input)
 
 output = stdout()
 
+# There are several possible permutations of this while loop, for example:
+# 1. start with reading a chunk outside the loop
+# 2. try to read and catch the error
 
-while(isIncomplete(input)){
+while(TRUE){
 # If this gets too complicated we could pull each step out into it's own function
 
     # 1. Read
-    chunk = read.table(file, sep = ",", nrows = 1e5L)
+    chunk = read.table(input, sep = ",", nrows = 1e5L)
 
     # 2. Process
     lastcol = ncol(chunk)
@@ -24,6 +27,9 @@ while(isIncomplete(input)){
 
     # 3. Write
     write.table(chunk, output, sep = ",", quote = FALSE, col.names = FALSE, row.names = FALSE)
+
+    # 4. No more input
+    if(!isIncomplete(input)) break
 }
 
 # Idea: demonstrate map reduce on a table.
