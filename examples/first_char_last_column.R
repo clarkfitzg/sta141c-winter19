@@ -6,14 +6,14 @@
 # Should print "100,2"
 
 # Example adding profiling:
-Rprof()
+#Rprof()
 
 input = file("stdin")
 open(input)
 
 output = stdout()
 
-chunk_size = 1e5L
+chunk_size = 1e4L
 
 # There are several possible permutations of this while loop, for example:
 # 1. do the reading and assignment inside the while call
