@@ -30,6 +30,7 @@ Date    |   Topic           | Video
 2-14    | shared memory parallelism     | https://youtu.be/l34IBkk8xcc
 2-19    | Python Introduction     | https://youtu.be/t7UZR_hVMpY
 2-21    | Python Iterators, generators, integration with shell pipeleines   | https://youtu.be/e-RAah4Eey4
+2-26    | bootstrap, data flow, intermediate variables  | https://youtu.be/ORvLvBj8dzo
 
 Catalog Description:
 
