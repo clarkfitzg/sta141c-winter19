@@ -64,6 +64,8 @@ se_boot = sd(xbar_boot)
 
 se_theory
 se_boot
+
+
 ```
 
 They are reasonably close.
@@ -74,6 +76,7 @@ The idea is that the empirical distribution of the statistic on the bootstrap sa
 hist(xbar_boot, freq = FALSE)
 
 curve(dnorm(x, sd = se_theory), add = TRUE)
+
 ```
 
 There are extensions of the bootstrap idea, see the reading list.

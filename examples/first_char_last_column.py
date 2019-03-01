@@ -20,6 +20,8 @@ def main():
         try:
             row[-1] = row[-1][0]
         except IndexError:
+            # Python: Better to ask forgiveness than permission
+            # Alternative: Look before you leap
             pass
         writer.writerow(row)
 

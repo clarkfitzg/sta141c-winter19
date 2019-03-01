@@ -11,6 +11,10 @@
 - For the homework, It should take 1 or 2 hours to collect the counts of the first digits, and quite possibly less.
 
 
-## bootstrap
+## questions
+
+> If you're piping the unzipped file to your program, how would you read the data into csv?
+
+Read `stdin`. 
 
 
