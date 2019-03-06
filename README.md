@@ -32,6 +32,7 @@ Date    |   Topic           | Video
 2-21    | Python Iterators, generators, integration with shell pipeleines   | https://youtu.be/e-RAah4Eey4
 2-26    | bootstrap, data flow, intermediate variables  | https://youtu.be/ORvLvBj8dzo
 2-28    | performance monitoring, chunked streaming computation    | https://youtu.be/RjrijQXd1dY
+3-5     | profiling in R, test driven development | https://youtu.be/lRKVzirgumw
 
 Catalog Description:
 
