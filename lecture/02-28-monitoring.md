@@ -19,13 +19,12 @@ bootparallel = function(recipient, n = 100){
 
 
 recipients = 1:1000
-library(microbenchmark)
 
-# Faster
-microbenchmark(parallel::mclapply(recipients, boot), times = 10L)
+# Faster, 0.08 seconds
+system.time(parallel::mclapply(recipients, boot))
 
-# Slower
-microbenchmark(lapply(recipients, bootparallel), times = 10L)
+# Slower, 6.574 seconds
+system.time(lapply(recipients, bootparallel))
 
 ```
 

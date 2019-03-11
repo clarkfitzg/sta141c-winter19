@@ -11,7 +11,6 @@ Office Hours:
 
 
 ### Lectures
-
 Lecture content is in the [lecture directory](https://github.com/clarkfitzg/sta141c-winter19/tree/master/lecture).
 
 Date    |   Topic           | Video
@@ -31,6 +30,9 @@ Date    |   Topic           | Video
 2-19    | Python Introduction     | https://youtu.be/t7UZR_hVMpY
 2-21    | Python Iterators, generators, integration with shell pipeleines   | https://youtu.be/e-RAah4Eey4
 2-26    | bootstrap, data flow, intermediate variables  | https://youtu.be/ORvLvBj8dzo
+2-28    | performance monitoring, chunked streaming computation    | https://youtu.be/RjrijQXd1dY
+3-5     | profiling in R, test driven development | https://youtu.be/lRKVzirgumw
+3-7     | database interfaces, SQL  | https://youtu.be/O99Vx0L6hZM
 
 Catalog Description:
 
