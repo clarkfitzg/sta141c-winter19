@@ -287,6 +287,7 @@ Spark tries to keep things in memory, which makes it much faster.
 ## R functions
 
 Here are a couple features of the R language that I haven't yet had a chance to show you.
+This comes from the [database copying script](https://github.com/clarkfitzg/phd_research/blob/master/experiments/usaspending/postgres_to_sqlite.R#L11) I showed you last week.
 
 - __lazy evaluation__ allows us to write flexible function interfaces, which means we can call them in many different ways.
 - __ellipses__ The `...` is used to pass arguments through from a wrapper function without having to name them.
