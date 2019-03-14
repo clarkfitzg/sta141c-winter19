@@ -1,17 +1,36 @@
 ## Announcements
 
-- Thanks for an exciting quarter!
-- Keep in touch, write me a note in a year or two and let me know what kind of cool stuff you're doing with data.
-    Feel free to add me as a contact on [LinkedIn](https://www.linkedin.com/in/clarkfitzg/).
-- I'll be in touch with the winning project team(s) via email after spring break.
 - If I teach this again I might use [AWS Educate](https://aws.amazon.com/education/awseducate/) as well as our campus compute servers.
     Check it out, you get $100 to play on Amazon's cloud. 
+    The things you've been learning about data processing, remote servers, batch job submission all still apply in the cloud.
+
+
+## Questions
+
+
+## Review
+
+Last class we saw Hadoop, Map Reduce, and Hive.
+
+Question: What does Hadoop give us?
+
+- Map Reduce computational model
+- distributed file system
+- fault tolerance
+- distributed sort
+
 
 
 ## Resources
 
 [Minimal Examples of R / C interfaces](https://github.com/clarkfitzg/templates/tree/master/R)
+[Reference: R language Extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html)
 [Wikipedia: Compiler](https://en.wikipedia.org/wiki/Compiler)
+
+A good analogy for performance improvement:
+I filled up the disk on my local hard drive while doing this class.
+To make more space I went through and deleted some of the largest files I had.
+Tuning a program for performance is the same way- we want to eliminate the largest bottlenecks.
 
 Question: Suppose you're working in a high level language like R or Python.
 Why would we take the time to rewrite part of our program in a compiled language?
@@ -21,6 +40,13 @@ This is especially true for developing new numerical algorithms.
 
 Another reason is to interface to an existing library with C bindings.
 This is a nice reason to write software in C- because then any higher level language can interface to it and use it.
+Term: __glue language__ is a high level language that connects lower level languages.
+
+Question: How do bitcoin miners work?
+Answer: Chips specialized to the actual algorithm.
+I've heard it said that "you can always get another order of magnitude speedup".
+You can always go down to the assembler code under C.
+Or you can do like the bitcoin miners do, and design ASICS- application specific integrated circuits.
 
 
 ## Goal
@@ -28,8 +54,24 @@ This is a nice reason to write software in C- because then any higher level lang
 Let's compute the L2 norm of a vector in several different languages, and see how fast we can make it run.
 Languages that are used for scientific computing probably have a function for this, so we can compare performance.
 
+Just to be clear, the compilers that are included with R and Python are byte code compilers.
+They do not compile down to machine code.
+
 
 ## R
+
+I'll show you one of R's C interfaces.
+For R, you can also look at the Rcpp package, or Rjulia to call Julia code.
+Many people find this easier to work with than R's C interfaces.
+
+We can install an R package from source on our local machine:
+
+```{bash}
+$ # Navigate to top level package to directory, then:
+$ R CMD INSTALL .
+```
+
+Here we actually directly compile the code.
 
 Here's the C code under the `l2norm` function:
 
@@ -93,20 +135,29 @@ n = 1e7L
 x = rnorm(n)
 
 # Builtin
+tn = system.time(rn <- norm(x, type = "2"))["elapsed"]
 
-t1 = system.time(n1 <- norm(x, type = "2"))["elapsed"]
+
+# A vectorized version
+l2norm_v = function(x) sqrt(sum(x * x))
+
+tv = system.time(rv <- l2norm_v(x))["elapsed"]
+
 
 # Our hand written C, with no special optimizations
 library(dotC)
 
-t2 = system.time(n2 <- l2norm(x))["elapsed"]
+tc = system.time(rc <- l2norm(x))["elapsed"]
 
-t1 / t2
+
+tn / tv
+
+tn / tc
 
 ```
 
-On my Mac the hand written C code is around an order of magnitude faster.
-To see why, we can look in the actual code for norm:
+On my Mac the hand written C code is around 40 ms, which is an order of magnitude faster than the built in `norm`.
+To see why, we can look in the actual code for `norm`:
 
 ```{r}
 > norm
@@ -128,6 +179,9 @@ Every step adds several checks and handles special cases.
 
 ## Julia
 
+Julia is based on Just In Time (JIT) compilation.
+This means it compiles functions when they are called inside the user code.
+
 ```{julia}
 
 n = 10^7
@@ -136,7 +190,7 @@ x = randn(n)
 function l2norm(x)
     out = 0.0
     for xi in x
-        out += xi^2
+        out += xi*xi
     end
     return sqrt(out)    
 end
@@ -151,7 +205,73 @@ l2norm(x)
 exit()
 ```
 
-The Julia code takes between 0.01 and 0.02 seconds, which is comparable to the C code in R.
+The Julia code takes between 10 and 20 ms, which is comparable to the C code we called from R.
+That's wicked fast!
 The differences in speed can come from which compiler optimizations are turned on.
 
-##
+Julia code is easier to write than C code.
+We can even call this Julia code from R.
+
+
+## Python
+
+Python 
+
+```{python}
+
+import numpy as np
+
+n = 10 ** 7
+
+x = np.random.randn(n)
+
+def l2norm(x):
+    out = 0.0
+    for xi in x:
+        out += xi*xi
+    return np.sqrt(out)    
+
+
+# Ipython measure how long it takes
+%timeit l2norm(x)
+```
+
+It takes close to 2000 milliseconds in Python.
+
+But if we use the compiler from numba:
+
+```{python}
+
+from numba import jit
+
+@jit
+def l2norm_jit(x):
+    out = 0.0
+    for xi in x:
+        out += xi*xi
+    return np.sqrt(out)    
+
+# Call it once to activate the JIT:
+l2norm_jit(x)
+
+%timeit l2norm_jit(x)
+```
+
+Now it takes around 10 ms- sweet!
+
+
+## Final thoughts
+
+- Thanks for an exciting quarter!
+- I've learned a lot by teaching my first class, thanks for being the first ones.
+- Keep in touch, write me a note in a year or two and let me know what kind of cool stuff you're doing with data.
+    Feel free to add me as a contact on [LinkedIn](https://www.linkedin.com/in/clarkfitzg/).
+- I'll be in touch with the winning project team(s) via email after spring break.
+
+Advice:
+
+- Be curious, and keep learning.
+    This is an exciting time to be in data science, and the opportunities are rich.
+- To take your skills to the next level, carefully read the official documentation for the tools that you are using.
+    Then read the source code to see what is actually happening.
+    Then contribute to the source code :)
