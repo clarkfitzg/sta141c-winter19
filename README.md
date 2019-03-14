@@ -33,6 +33,8 @@ Date    |   Topic           | Video
 2-28    | performance monitoring, chunked streaming computation    | https://youtu.be/RjrijQXd1dY
 3-5     | profiling in R, test driven development | https://youtu.be/lRKVzirgumw
 3-7     | database interfaces, SQL  | https://youtu.be/O99Vx0L6hZM
+3-12    | Map Reduce, Hive  | https://youtu.be/vdusmDcgGPg
+3-14    | Compiled languages    |
 
 Catalog Description:
 
