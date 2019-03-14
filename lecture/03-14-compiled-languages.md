@@ -4,6 +4,8 @@
 - Keep in touch, write me a note in a year or two and let me know what kind of cool stuff you're doing with data.
     Feel free to add me as a contact on [LinkedIn](https://www.linkedin.com/in/clarkfitzg/).
 - I'll be in touch with the winning project team(s) via email after spring break.
+- If I teach this again I might use [AWS Educate](https://aws.amazon.com/education/awseducate/) as well as our campus compute servers.
+    Check it out, you get $100 to play on Amazon's cloud. 
 
 
 ## Resources
