@@ -134,6 +134,46 @@ Description:
      only R developers can add to the list of internal functions.
 ```
 
+In contrast, we can also use R's C level API with the `.Call` interface.
+This means we need to know both C and R's C level API.
+
+Here's the R code:
+```{r}
+l2norm = function(x)
+{
+    out = 0.0
+    .Call(c_l2norm, as.numeric(x), out)
+    out
+}
+```
+
+And the C code:
+
+```{c}
+#include <math.h>
+#include <R.h>
+#include <Rinternals.h>
+
+// Dot product
+SEXP c_l2norm(SEXP x, SEXP out)
+{
+    // C pointers to the actual data
+    double *xp = REAL(x);
+    double *outp = REAL(out);
+
+    int n = length(x);
+
+    for(int i = 0; i < n; i++)
+    {
+        *outp += xp[i] * xp[i];
+    }
+    
+    *outp = sqrt(*outp);
+
+    return out;
+}
+```
+
 
 Let's try using it:
 
@@ -153,10 +193,13 @@ tv = system.time(rv <- l2norm_v(x))["elapsed"]
 
 
 # Our hand written C, with no special optimizations
-library(dotC)
+library(dotCall)
 
 tc = system.time(rc <- l2norm(x))["elapsed"]
 
+# Do they get the same answer?
+all.equal(rn, rv, rc)
+# yes.
 
 tn / tv
 
@@ -164,7 +207,7 @@ tn / tc
 
 ```
 
-On my Mac the hand written C code is around 40 ms, which is an order of magnitude faster than the built in `norm`.
+On my Mac the hand written C code is around 17 ms, which is an order of magnitude faster than the built in `norm`.
 To see why, we can look in the actual code for `norm`:
 
 ```{r}
