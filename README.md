@@ -34,7 +34,7 @@ Date    |   Topic           | Video
 3-5     | profiling in R, test driven development | https://youtu.be/lRKVzirgumw
 3-7     | database interfaces, SQL  | https://youtu.be/O99Vx0L6hZM
 3-12    | Map Reduce, Hive  | https://youtu.be/vdusmDcgGPg
-3-14    | Compiled languages    |
+3-14    | Compiled languages    | https://youtu.be/uwBm0ESc9-s
 
 Catalog Description:
 
